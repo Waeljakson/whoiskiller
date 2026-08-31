@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260831-3" />
 </head>
 <body>
   <section id="authGate" class="auth-gate">
@@ -258,8 +258,60 @@
         </section>
 
         <section id="tab-suspects" class="tab-page hidden">
-          <div class="section-head"><div><span class="section-kicker">INTERROGATION ROOM</span><h2>غرفة المشتبهين</h2><p>قارن بين الدافع، الحجة الزمنية، والفرصة.</p></div></div>
-          <div class="suspect-layout"><div id="suspectGrid" class="cards-grid suspects"></div><aside class="panel detective-note"><span class="section-kicker">مذكرة المحقق</span><p>لا يكفي وجود الدافع. ابحث عن دليل يربط المشتبه به بمكان الجريمة وفي نفس النافذة الزمنية، ثم راجع احتمال وجود دليل مزروع للتضليل.</p><div class="selected-person"><span>المشتبه المحدد</span><strong id="selectedSuspectName">لم يتم الاختيار</strong></div><button id="accuse" class="danger-btn">توجيه الاتهام النهائي</button></aside></div>
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">INTERROGATION ROOM</span>
+              <h2>غرفة المشتبهين</h2>
+              <p>قارن بين الدافع، الحجة الزمنية، والفرصة.</p>
+            </div>
+          </div>
+
+          <div class="suspect-layout" style="display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:15px;margin-top:15px;visibility:visible;opacity:1;">
+            <div id="suspectGrid" class="cards-grid suspects" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;visibility:visible;opacity:1;min-height:200px;">
+              <button type="button" class="suspect-card" data-suspect="سامر">
+                <div class="suspect-avatar">A</div>
+                <h3>سامر</h3>
+                <p>فني صيانة</p>
+                <div class="suspect-meta">
+                  <div><b>الدافع:</b> ديون كبيرة</div>
+                  <div><b>الحجة:</b> قال إنه غادر مبكرًا</div>
+                  <div><b>الاشتباه:</b> مرتفع</div>
+                </div>
+              </button>
+
+              <button type="button" class="suspect-card" data-suspect="ليلى">
+                <div class="suspect-avatar">B</div>
+                <h3>ليلى</h3>
+                <p>مديرة الحسابات</p>
+                <div class="suspect-meta">
+                  <div><b>الدافع:</b> تعرف محتوى الصندوق</div>
+                  <div><b>الحجة:</b> اجتماع مسجل</div>
+                  <div><b>الاشتباه:</b> متوسط</div>
+                </div>
+              </button>
+
+              <button type="button" class="suspect-card" data-suspect="حازم">
+                <div class="suspect-avatar">C</div>
+                <h3>حازم</h3>
+                <p>مشرف الأمن</p>
+                <div class="suspect-meta">
+                  <div><b>الدافع:</b> خلاف إداري</div>
+                  <div><b>الحجة:</b> دورية خارجية</div>
+                  <div><b>الاشتباه:</b> متوسط</div>
+                </div>
+              </button>
+            </div>
+
+            <aside class="panel detective-note" style="display:block;visibility:visible;opacity:1;min-height:220px;">
+              <span class="section-kicker">مذكرة المحقق</span>
+              <p>لا يكفي وجود الدافع. ابحث عن دليل يربط المشتبه به بمكان الجريمة وفي نفس النافذة الزمنية، ثم راجع احتمال وجود دليل مزروع للتضليل.</p>
+              <div class="selected-person">
+                <span>المشتبه المحدد</span>
+                <strong id="selectedSuspectName">لم يتم الاختيار</strong>
+              </div>
+              <button id="accuse" class="danger-btn">توجيه الاتهام النهائي</button>
+            </aside>
+          </div>
         </section>
 
         <section id="tab-league" class="tab-page hidden">
@@ -277,8 +329,8 @@
     <footer class="footer"><div class="footer-line"></div><p>جميع الحقوق محفوظة © 2026</p><strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong><a href="tel:0582712620">0582712620</a></footer>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
-  <script src="supabase-config.js"></script>
-  <script src="auth.js"></script>
-  <script src="app.js"></script>
+  <script src="supabase-config.js?v=20260831-3"></script>
+  <script src="auth.js?v=20260831-3"></script>
+  <script src="app.js?v=20260831-3"></script>
 </body>
 </html>

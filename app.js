@@ -13,8 +13,27 @@ function setTab(name){
   page.classList.remove('hidden');
   $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
   if(name==='suspects'){
+    const layout=document.querySelector('#tab-suspects .suspect-layout');
+    const grid=document.getElementById('suspectGrid');
+    const note=document.querySelector('#tab-suspects .detective-note');
+    if(layout){
+      layout.style.setProperty('display','grid','important');
+      layout.style.setProperty('visibility','visible','important');
+      layout.style.setProperty('opacity','1','important');
+    }
+    if(grid){
+      grid.style.setProperty('display','grid','important');
+      grid.style.setProperty('visibility','visible','important');
+      grid.style.setProperty('opacity','1','important');
+    }
+    if(note){
+      note.style.setProperty('display','block','important');
+      note.style.setProperty('visibility','visible','important');
+      note.style.setProperty('opacity','1','important');
+    }
     renderSuspects();
     requestAnimationFrame(()=>renderSuspects());
+    setTimeout(()=>renderSuspects(),80);
   }
   if(name==='evidence'){
     renderEvidence();

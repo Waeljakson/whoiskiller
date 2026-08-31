@@ -403,3 +403,65 @@ body:has(.auth-gate:not(.hidden)){overflow:auto}
   font-size:13px;
   text-align:center;
 }
+
+
+/* ===== HARD FIX: suspects are always visible when tab is active ===== */
+#tab-suspects:not(.hidden) {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+#tab-suspects:not(.hidden) > .suspect-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) 310px !important;
+  gap: 15px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 240px !important;
+  width: 100% !important;
+}
+
+#tab-suspects:not(.hidden) #suspectGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  gap: 13px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 200px !important;
+  width: 100% !important;
+}
+
+#tab-suspects:not(.hidden) #suspectGrid > .suspect-card {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-width: 0 !important;
+  min-height: 185px !important;
+  position: relative !important;
+}
+
+#tab-suspects:not(.hidden) .detective-note {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 220px !important;
+}
+
+@media (max-width: 1050px) {
+  #tab-suspects:not(.hidden) > .suspect-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #tab-suspects:not(.hidden) #suspectGrid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  #tab-suspects:not(.hidden) #suspectGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
