@@ -163,3 +163,94 @@ html{font-size:19px}body{font-size:18px;line-height:1.75}
   image-rendering:auto!important;
   opacity:1!important;
 }
+
+/* ==========================================================
+   BUILD 920 — Interactive evidence numbers over cinematic art
+   ========================================================== */
+.scene-image-wrap{position:relative!important}
+.scene-hotspot-layer{
+  position:absolute;
+  inset:0;
+  z-index:8;
+  pointer-events:none;
+}
+.scene-hotspot{
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  width:64px;
+  height:64px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:2px solid transparent;
+  background:transparent;
+  pointer-events:auto;
+  cursor:pointer;
+  padding:0;
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.scene-hotspot:hover,
+.scene-hotspot:focus-visible{
+  border-color:rgba(255,205,55,.92);
+  background:rgba(240,180,41,.10);
+  box-shadow:0 0 0 7px rgba(240,180,41,.10),0 0 25px rgba(240,180,41,.45);
+}
+.scene-hotspot.found{
+  border-color:rgba(93,196,123,.9);
+  background:rgba(36,109,58,.13);
+  box-shadow:0 0 0 6px rgba(67,157,93,.10);
+}
+.scene-hotspot .hit-label{
+  position:absolute;
+  left:50%;
+  top:calc(100% + 7px);
+  transform:translateX(-50%);
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  background:#071018ee;
+  border:1px solid #71591c;
+  color:#f2ca58;
+  padding:5px 8px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:800;
+  transition:opacity .15s ease;
+}
+.scene-hotspot:hover .hit-label,
+.scene-hotspot:focus-visible .hit-label{
+  opacity:1;
+}
+.scene-hit-result{
+  margin:10px 0 0;
+  padding:13px 15px;
+  border-right:4px solid #e9b735;
+  background:linear-gradient(90deg,#2b240d66,#0c151b);
+  animation:sceneHitIn .28s ease;
+}
+.scene-hit-result b{
+  display:block;
+  color:#f0c14b;
+  font-size:16px;
+}
+.scene-hit-result span{
+  display:block;
+  margin-top:4px;
+  color:#c6ced3;
+  font-size:14px;
+  line-height:1.8;
+}
+@keyframes sceneHitIn{
+  from{opacity:0;transform:translateY(-6px)}
+  to{opacity:1;transform:none}
+}
+.scene-note{
+  font-size:15px!important;
+  color:#dfc572!important;
+  font-weight:700;
+}
+@media(max-width:720px){
+  .scene-hotspot{width:54px;height:54px}
+  .scene-hotspot .hit-label{font-size:10px}
+}

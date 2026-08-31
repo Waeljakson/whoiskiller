@@ -1,5 +1,5 @@
 (()=>{
-const BUILD="900";
+const BUILD="920";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)], esc=t=>String(t??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 const S={index:0,points:0,credits:0,rank:"محقق متدرب",solved:0,selected:0,docs:new Set(),evidence:new Set(),questions:new Set(),contradictions:new Set(),wrong:0,inventory:new Map(),storeItems:[],pendingNext:null,profile:{},briefStep:0,toolDiscoveries:new Set()};
 
@@ -30,11 +30,81 @@ const RANKS=[
 ];
 const c=()=>CaseEngine.get(S.index);
 
-function resetCaseSession(){S.selected=0;S.docs.clear();S.evidence.clear();S.questions.clear();S.contradictions.clear();S.wrong=0;S.toolDiscoveries.clear();S.pendingNext=null;$("#accusationMsg").textContent="";$("#hintText").textContent="";$("#toolDiscovery").classList.add("hidden");$("#toolDiscovery").innerHTML="";const layer=$("#specialClueLayer");if(layer)layer.innerHTML=""}
+function resetCaseSession(){S.selected=0;S.docs.clear();S.evidence.clear();S.questions.clear();S.contradictions.clear();S.wrong=0;S.toolDiscoveries.clear();S.pendingNext=null;$("#accusationMsg").textContent="";$("#hintText").textContent="";$("#toolDiscovery").classList.add("hidden");$("#toolDiscovery").innerHTML="";const layer=$("#specialClueLayer");if(layer)layer.innerHTML="";const hotspots=$("#sceneHotspotLayer");if(hotspots)hotspots.innerHTML="";const hit=$("#sceneHitResult");if(hit)hit.remove()}
 function setView(v){$$(".view").forEach(x=>x.classList.add("hidden"));$("#view-"+v)?.classList.remove("hidden");$$("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));if(v==="interrogate")renderInterrogation();if(v==="theory")renderTheory();if(v==="map")renderMap();if(v==="league")renderLeague();if(v==="store")renderStore();window.scrollTo({top:0,behavior:"smooth"})}
 function toast(text,error=false){const el=$("#gameToast");el.textContent=text;el.className="game-toast"+(error?" error":"");setTimeout(()=>el.classList.add("hidden"),3300)}
 function header(){const cc=c();$("#soundToggle").textContent=AudioFx.isEnabled()?"🔊 الأصوات":"🔇 صامت";$("#soundToggle").classList.toggle("muted",!AudioFx.isEnabled());$("#caseTitle").innerHTML=(cc.special?'<span class="special-case-badge">مهمة خاصة</span>':"")+esc(cc.title);$("#caseNo").textContent=`القضية ${cc.index+1} من ${CaseEngine.total}`;$("#locationTop").textContent=`${cc.scope} • ${cc.city} • ${cc.country}`;$("#points").textContent=S.points.toLocaleString("ar-EG");$("#credits").textContent=S.credits.toLocaleString("ar-EG");$("#rank").textContent=S.rank;$("#attempts").textContent=`${S.solved} / ${CaseEngine.total}`;$("#difficulty").textContent=cc.difficulty+"%";$("#storeCredits").textContent=S.credits.toLocaleString("ar-EG")}
-function renderScene(){const cc=c();const scenePath=cc.sceneImage||"assets/scenes/hotel_case.png";const img=$("#sceneImg");if(img){img.src=gameAsset(scenePath)||gameAsset("assets/scenes/hotel_case.png");img.dataset.build=BUILD}$("#caseBrief").textContent=cc.brief;$("#victim").textContent=cc.victim;$("#casePlace").textContent=cc.location;$("#caseTime").textContent=cc.time}
+
+const SCENE_HOTSPOTS={
+ hotel_case:[
+  {x:52.1,y:85.1},{x:43.3,y:26.6},{x:84.2,y:39.4},
+  {x:90.7,y:67.3},{x:14.3,y:82.0},{x:83.4,y:84.7}
+ ],
+ hotel_night:[
+  {x:52.1,y:85.1},{x:43.3,y:26.6},{x:84.2,y:39.4},
+  {x:90.7,y:67.3},{x:14.3,y:82.0},{x:83.4,y:84.7}
+ ],
+ office_dark:[
+  {x:52.1,y:85.1},{x:43.3,y:26.6},{x:84.2,y:39.4},
+  {x:90.7,y:67.3},{x:14.3,y:82.0},{x:83.4,y:84.7}
+ ],
+ hotel_mirror:[
+  {x:47.9,y:85.1},{x:56.7,y:26.6},{x:15.8,y:39.4},
+  {x:9.3,y:67.3},{x:85.7,y:82.0},{x:16.6,y:84.7}
+ ],
+ restaurant_lux:[
+  {x:47.9,y:85.1},{x:56.7,y:26.6},{x:15.8,y:39.4},
+  {x:9.3,y:67.3},{x:85.7,y:82.0},{x:16.6,y:84.7}
+ ],
+ archive_room:[
+  {x:47.9,y:85.1},{x:56.7,y:26.6},{x:15.8,y:39.4},
+  {x:9.3,y:67.3},{x:85.7,y:82.0},{x:16.6,y:84.7}
+ ],
+ villa_case:[
+  {x:5.2,y:59.9},{x:76.7,y:53.0},{x:41.8,y:85.4},{x:85.3,y:73.2}
+ ],
+ villa_night:[
+  {x:5.2,y:59.9},{x:76.7,y:53.0},{x:41.8,y:85.4},{x:85.3,y:73.2}
+ ],
+ lab_dark:[
+  {x:5.2,y:59.9},{x:76.7,y:53.0},{x:41.8,y:85.4},{x:85.3,y:73.2}
+ ],
+ resort_room:[
+  {x:5.2,y:59.9},{x:76.7,y:53.0},{x:41.8,y:85.4},{x:85.3,y:73.2}
+ ],
+ villa_mirror:[
+  {x:94.8,y:59.9},{x:23.3,y:53.0},{x:58.2,y:85.4},{x:14.7,y:73.2}
+ ],
+ museum_room:[
+  {x:94.8,y:59.9},{x:23.3,y:53.0},{x:58.2,y:85.4},{x:14.7,y:73.2}
+ ]
+};
+function sceneKey(){
+ const src=(c().sceneImage||"").split("/").pop()||"hotel_case.png";
+ return src.replace(/\.(png|jpg|jpeg|webp|svg)$/i,"");
+}
+function renderSceneHotspots(){
+ const layer=$("#sceneHotspotLayer");if(!layer)return;
+ const cc=c(),spots=SCENE_HOTSPOTS[sceneKey()]||SCENE_HOTSPOTS.hotel_case;
+ const usable=spots.slice(0,Math.min(spots.length,cc.evidence.length));
+ layer.innerHTML=usable.map((p,i)=>{
+  const ev=cc.evidence[i];
+  return `<button type="button" class="scene-hotspot ${S.evidence.has(ev.id)?"found":""}" data-scene-evidence="${ev.id}" style="--x:${p.x}%;--y:${p.y}%;" aria-label="فحص ${esc(ev.name)}"><span class="hit-label">${esc(ev.name)}</span></button>`;
+ }).join("");
+}
+function showSceneEvidenceResult(ev){
+ let box=$("#sceneHitResult");
+ if(!box){
+  box=document.createElement("div");
+  box.id="sceneHitResult";
+  box.className="scene-hit-result";
+  const note=document.querySelector(".scene-note");
+  if(note)note.insertAdjacentElement("afterend",box);
+ }
+ box.innerHTML=`<b>🔎 تم كشف: ${esc(ev.name)}</b><span>${esc(ev.result)}</span>`;
+}
+
+function renderScene(){const cc=c();const scenePath=cc.sceneImage||"assets/scenes/hotel_case.png";const img=$("#sceneImg");if(img){img.src=gameAsset(scenePath)||gameAsset("assets/scenes/hotel_case.png");img.dataset.build=BUILD}$("#caseBrief").textContent=cc.brief;$("#victim").textContent=cc.victim;$("#casePlace").textContent=cc.location;$("#caseTime").textContent=cc.time;renderSceneHotspots()}
 function renderSuspects(){const cc=c();const html=cc.suspects.map((s,i)=>`<button class="sus-card ${i===S.selected?"active":""}" data-suspect="${i}"><img src="${gameAsset("assets/portraits/p"+String(s.portrait).padStart(2,"0")+".png")}" alt="${esc(s.name)}"><strong>${esc(s.name)}</strong><span>${esc(s.role)}</span><small>نسبة الاشتباه <b>${s.risk==="مرتفع"?"72":s.risk==="متوسط"?"48":"27"}%</b></small></button>`).join("");$$(".suspect-strip").forEach(x=>x.innerHTML=html)}
 function renderEvidence(){const cc=c();const html=cc.evidence.map(e=>`<button class="ev-card ${S.evidence.has(e.id)?"done":""}" data-evidence="${e.id}"><img src="${gameAsset(e.image)}"><span>${esc(e.name)}</span><small>${e.code}</small></button>`).join("");$$(".evidence-grid").forEach(x=>x.innerHTML=html);$("#evidenceCount").textContent=cc.evidence.length}
 function renderDocs(){const cc=c();$("#docList").innerHTML=cc.documents.map((d,i)=>`<button class="${S.docs.has(i)?"read":""}" data-doc="${i}"><strong>${esc(d.title)}</strong><span>${esc(d.type)}</span></button>`).join("")}
@@ -45,7 +115,7 @@ function openDoc(i){
  $("#animatedPaper").classList.remove("page-turn");void $("#animatedPaper").offsetWidth;$("#animatedPaper").classList.add("page-turn");
  $("#documentOverlay").classList.remove("hidden");renderDocs();updatePhase()
 }
-function analyze(id){AudioFx.evidence();const e=c().evidence.find(x=>x.id===id);S.evidence.add(id);$$(".lab").forEach(x=>x.innerHTML=`<strong>${esc(e.name)}</strong><p>${esc(e.result)}</p>`);renderEvidence();updatePhase()}
+function analyze(id){AudioFx.evidence();const e=c().evidence.find(x=>x.id===id);S.evidence.add(id);$$(".lab").forEach(x=>x.innerHTML=`<strong>${esc(e.name)}</strong><p>${esc(e.result)}</p>`);renderEvidence();renderSceneHotspots();updatePhase()}
 function renderInterrogation(){const s=c().suspects[S.selected];$("#interrogatePerson").innerHTML=`<img src="${gameAsset("assets/portraits/p"+String(s.portrait).padStart(2,"0")+".png")}"><h3>${esc(s.name)}</h3><p>${esc(s.role)}</p><small>${esc(s.alibi)}</small>`;$("#questionButtons").innerHTML=qbank.map(q=>`<button data-q="${q[0]}">${q[1]}</button>`).join("");$("#contradiction").textContent=S.contradictions.has(s.id)?"تم اكتشاف تناقض: توقيته لا يطابق السجل المصحح.":"لم يتم اكتشاف تناقض مؤكد بعد."}
 function ask(id,text){const s=c().suspects[S.selected];S.questions.add(`${s.id}-${id}`);if((id==="timeline"||id==="evidence")&&s.risk==="مرتفع")S.contradictions.add(s.id);$("#chat").insertAdjacentHTML("beforeend",`<div class="me">${esc(text)}</div><div class="them"><b>${esc(s.name)}</b>${esc(s.answers[id])}</div>`);$("#chat").scrollTop=$("#chat").scrollHeight;renderInterrogation()}
 
@@ -201,6 +271,12 @@ async function nextBrief(){
 document.addEventListener("click",e=>{
  const v=e.target.closest("[data-view]");if(v)return setView(v.dataset.view);
  const s=e.target.closest("[data-suspect]");if(s){S.selected=Number(s.dataset.suspect);renderSuspects();return}
+ const sev=e.target.closest("[data-scene-evidence]");
+ if(sev){
+  const id=sev.dataset.sceneEvidence,evd=c().evidence.find(x=>x.id===id);
+  if(evd){analyze(id);showSceneEvidenceResult(evd);renderSceneHotspots();toast(`تم فحص ${evd.name} وإضافته إلى ملف الأدلة.`)}
+  return;
+ }
  const ev=e.target.closest("[data-evidence]");if(ev)return analyze(ev.dataset.evidence);
  const d=e.target.closest("[data-doc]");if(d)return openDoc(Number(d.dataset.doc));
  const q=e.target.closest("[data-q]");if(q){const item=qbank.find(x=>x[0]===q.dataset.q);return ask(item[0],item[1])}
