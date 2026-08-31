@@ -191,44 +191,70 @@
   signupForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     status('جارٍ إنشاء حساب المحقق...');
+
     const submit = signupForm.querySelector('button[type="submit"]');
     submit.disabled = true;
+
     const form = new FormData(signupForm);
     const displayName = String(form.get('displayName') || '').trim();
     const username = String(form.get('username') || '').trim();
     const country = String(form.get('country') || '').trim();
-    const email = String(form.get('email') || '').trim();
+    const email = String(form.get('email') || '').trim().toLowerCase();
     const password = String(form.get('password') || '');
 
-    if (displayName.length < 2) { submit.disabled = false; return status('أدخل الاسم بشكل صحيح.', true); }
-    if (!/^[A-Za-z0-9_\-]{3,24}$/.test(username)) { submit.disabled = false; return status('اسم المحقق يجب أن يكون 3-24 حرفاً إنجليزياً/رقماً ويمكن استخدام _ أو -.', true); }
-    if (country.length < 2) { submit.disabled = false; return status('أدخل الدولة.', true); }
-    if (password.length < 8) { submit.disabled = false; return status('كلمة المرور يجب ألا تقل عن 8 أحرف.', true); }
-
-    const { data, error } = await client.auth.signUp({
-      email,
-      password,
-      options: { data: { display_name: displayName, username, country } }
-    });
-
-    if (error) {
+    if (displayName.length < 2) {
       submit.disabled = false;
-      if ((error.message || '').toLowerCase().includes('duplicate')) {
-        status('تعذر إنشاء الحساب. جرّب بريداً أو اسم محقق مختلفاً.', true);
-      } else {
-        status('تعذر إنشاء الحساب: ' + error.message, true);
-      }
-      return;
+      return status('أدخل الاسم بشكل صحيح.', true);
+    }
+    if (!/^[A-Za-z0-9_\-]{3,24}$/.test(username)) {
+      submit.disabled = false;
+      return status('اسم المحقق يجب أن يكون 3-24 حرفاً إنجليزياً/رقماً ويمكن استخدام _ أو -.', true);
+    }
+    if (country.length < 2) {
+      submit.disabled = false;
+      return status('أدخل الدولة.', true);
+    }
+    if (password.length < 8) {
+      submit.disabled = false;
+      return status('كلمة المرور يجب ألا تقل عن 8 أحرف.', true);
     }
 
-    if (data.session) {
-      status('تم إنشاء الحساب بنجاح.');
+    try {
+      const response = await fetch(`${config.url}/functions/v1/signup-player`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': config.publishableKey
+        },
+        body: JSON.stringify({ email, password, displayName, username, country })
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        submit.disabled = false;
+        return status(result.message || 'تعذر إنشاء الحساب حالياً.', true);
+      }
+
+      status('تم إنشاء الحساب. جارٍ تسجيل الدخول...');
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error || !data.session) {
+        submit.disabled = false;
+        switchForm('login');
+        return status('تم إنشاء الحساب بنجاح. استخدم البريد وكلمة المرور لتسجيل الدخول.', false);
+      }
+
+      status('');
       await enterGame(data.session);
       submit.disabled = false;
-    } else {
-      status('تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب ثم سجّل الدخول.');
-      switchForm('login');
+    } catch (error) {
       submit.disabled = false;
+      status('تعذر الاتصال بخدمة إنشاء الحساب. حاول مرة أخرى.', true);
     }
   });
 
