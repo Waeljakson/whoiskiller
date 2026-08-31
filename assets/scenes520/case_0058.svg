@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 680">
+    <defs>
+      <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#242737"/><stop offset="1" stop-color="#0d1017"/></linearGradient>
+      <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#62506e"/><stop offset=".32" stop-color="#202329"/><stop offset="1" stop-color="#080b0e"/></linearGradient>
+      <radialGradient id="light"><stop stop-color="#d9a93b" stop-opacity=".43"/><stop offset=".42" stop-color="#d9a93b" stop-opacity=".10"/><stop offset="1" stop-color="#d9a93b" stop-opacity="0"/></radialGradient>
+      <filter id="shadow"><feDropShadow dx="0" dy="15" stdDeviation="12" flood-opacity=".42"/></filter>
+      <filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#d9a93b" flood-opacity=".35"/></filter>
+      <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+      <pattern id="floorGrid" width="110" height="60" patternUnits="userSpaceOnUse" patternTransform="skewX(-13)"><path d="M0 0h110v60H0z" fill="none" stroke="#596068" stroke-opacity=".18"/></pattern>
+    </defs>
+    <rect width="1180" height="680" fill="#0d1017"/>
+    <rect x="18" y="18" width="1144" height="391" rx="10" fill="url(#wall)"/>
+    <rect x="18" y="391" width="1144" height="271" fill="url(#floor)"/>
+    <rect x="18" y="391" width="1144" height="271" fill="url(#floorGrid)"/>
+    <ellipse cx="554" cy="78" rx="260" ry="210" fill="url(#light)"/>
+    <rect x="121" y="98" width="332" height="200" fill="#081721" stroke="#45535d" stroke-width="10"/>
+    <line x1="287.0" y1="98" x2="287.0" y2="298" stroke="#45535d" stroke-width="5"/>
+    <line x1="121" y1="198.0" x2="453" y2="198.0" stroke="#45535d" stroke-width="5"/>
+    
+        <rect x="60" y="90" width="1060" height="470" rx="28" fill="#292725" stroke="#56616a" stroke-width="10"/>
+        <rect x="125" y="145" width="255" height="150" fill="#091720" stroke="#44525b" stroke-width="6"/><rect x="465" y="145" width="255" height="150" fill="#091720" stroke="#44525b" stroke-width="6"/><rect x="805" y="145" width="255" height="150" fill="#091720" stroke="#44525b" stroke-width="6"/>
+        <rect x="140" y="385" width="280" height="130" rx="22" fill="#735443"/><rect x="760" y="385" width="280" height="130" rx="22" fill="#735443"/>
+        
+    <g opacity=".72" filter="url(#soft)"><ellipse cx="522" cy="474" rx="60" ry="22" fill="#76060b"/><circle cx="452" cy="449" r="10" fill="#76060b"/><circle cx="597" cy="492" r="7" fill="#76060b"/></g>
+    <g transform="rotate(-44 388 519)" opacity=".9">
+    <circle cx="388" cy="449" r="20" fill="none" stroke="#deded3" stroke-width="4"/>
+    <rect x="360" y="471" width="56" height="95" rx="20" fill="none" stroke="#deded3" stroke-width="4"/>
+    <line x1="370" y1="494" x2="303" y2="539" stroke="#deded3" stroke-width="4"/>
+    <line x1="406" y1="494" x2="473" y2="539" stroke="#deded3" stroke-width="4"/>
+    <line x1="373" y1="564" x2="338" y2="639" stroke="#deded3" stroke-width="4"/>
+    <line x1="403" y1="564" x2="443" y2="639" stroke="#deded3" stroke-width="4"/></g>
+    <rect x="500" y="404" width="56" height="36" rx="6" fill="#242a2e"/><circle cx="528" cy="422" r="12" fill="#0b151b" stroke="#7a8c96" stroke-width="3"/><rect x="813" y="418" width="36" height="60" rx="5" fill="#1a1f22" stroke="#8a969c" stroke-width="2"/><rect x="820" y="428" width="22" height="36" fill="#18323d"/><path d="M193 411l55-10 25 10-25 10z" fill="#bac3c6" stroke="#6f777b"/><rect x="268" y="402" width="38" height="18" rx="5" fill="#49362d"/><circle cx="796" cy="420" r="22" fill="#262d31" stroke="#d0aa49" stroke-width="4"/><line x1="796" y1="420" x2="806" y2="412" stroke="#d0aa49" stroke-width="2"/><line x1="796" y1="420" x2="794" y2="407" stroke="#d0aa49" stroke-width="2"/>
+    <g filter="url(#glow)"><circle cx="528" cy="367" r="24" fill="#0b1014" stroke="#d9a93b" stroke-width="4"/><text x="528" y="374" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#d9a93b">1</text></g><g filter="url(#glow)"><circle cx="831" cy="393" r="24" fill="#0b1014" stroke="#d9a93b" stroke-width="4"/><text x="831" y="400" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#d9a93b">2</text></g><g filter="url(#glow)"><circle cx="238" cy="356" r="24" fill="#0b1014" stroke="#d9a93b" stroke-width="4"/><text x="238" y="363" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#d9a93b">3</text></g><g filter="url(#glow)"><circle cx="796" cy="365" r="24" fill="#0b1014" stroke="#d9a93b" stroke-width="4"/><text x="796" y="372" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#d9a93b">4</text></g>
+    
+    <rect x="32" y="32" width="215" height="34" rx="5" fill="#071018" fill-opacity=".88" stroke="#d9a93b" stroke-opacity=".35"/>
+    <text x="48" y="55" font-family="Arial" font-weight="700" font-size="13" fill="#d9a93b">CASE 0058 • قطار ليلي</text>
+    <rect x="18" y="18" width="1144" height="644" rx="10" fill="none" stroke="#d9a93b" stroke-opacity=".18"/>
+    </svg>

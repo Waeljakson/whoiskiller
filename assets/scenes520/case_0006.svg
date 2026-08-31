@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 680">
+    <defs>
+      <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a211d"/><stop offset="1" stop-color="#0a0e12"/></linearGradient>
+      <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a17b55"/><stop offset=".32" stop-color="#202329"/><stop offset="1" stop-color="#080b0e"/></linearGradient>
+      <radialGradient id="light"><stop stop-color="#efb83c" stop-opacity=".43"/><stop offset=".42" stop-color="#efb83c" stop-opacity=".10"/><stop offset="1" stop-color="#efb83c" stop-opacity="0"/></radialGradient>
+      <filter id="shadow"><feDropShadow dx="0" dy="15" stdDeviation="12" flood-opacity=".42"/></filter>
+      <filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#efb83c" flood-opacity=".35"/></filter>
+      <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+      <pattern id="floorGrid" width="110" height="60" patternUnits="userSpaceOnUse" patternTransform="skewX(-13)"><path d="M0 0h110v60H0z" fill="none" stroke="#596068" stroke-opacity=".18"/></pattern>
+    </defs>
+    <rect width="1180" height="680" fill="#0a0e12"/>
+    <rect x="18" y="18" width="1144" height="386" rx="10" fill="url(#wall)"/>
+    <rect x="18" y="386" width="1144" height="276" fill="url(#floor)"/>
+    <rect x="18" y="386" width="1144" height="276" fill="url(#floorGrid)"/>
+    <ellipse cx="420" cy="139" rx="260" ry="210" fill="url(#light)"/>
+    <rect x="66" y="77" width="267" height="195" fill="#081721" stroke="#45535d" stroke-width="10"/>
+    <line x1="199.5" y1="77" x2="199.5" y2="272" stroke="#45535d" stroke-width="5"/>
+    <line x1="66" y1="174.5" x2="333" y2="174.5" stroke="#45535d" stroke-width="5"/>
+    
+        <rect x="60" y="90" width="1060" height="470" rx="28" fill="#292725" stroke="#56616a" stroke-width="10"/>
+        <rect x="125" y="145" width="255" height="150" fill="#091720" stroke="#44525b" stroke-width="6"/><rect x="465" y="145" width="255" height="150" fill="#091720" stroke="#44525b" stroke-width="6"/><rect x="805" y="145" width="255" height="150" fill="#091720" stroke="#44525b" stroke-width="6"/>
+        <rect x="140" y="385" width="280" height="130" rx="22" fill="#735443"/><rect x="760" y="385" width="280" height="130" rx="22" fill="#735443"/>
+        
+    
+    
+    <rect x="168" y="502" width="56" height="36" rx="6" fill="#242a2e"/><circle cx="196" cy="520" r="12" fill="#0b151b" stroke="#7a8c96" stroke-width="3"/><circle cx="508" cy="434" r="22" fill="#262d31" stroke="#d0aa49" stroke-width="4"/><line x1="508" y1="434" x2="518" y2="426" stroke="#d0aa49" stroke-width="2"/><line x1="508" y1="434" x2="506" y2="421" stroke="#d0aa49" stroke-width="2"/><rect x="903" y="526" width="36" height="60" rx="5" fill="#1a1f22" stroke="#8a969c" stroke-width="2"/><rect x="910" y="536" width="22" height="36" fill="#18323d"/><path d="M768 547l55-10 25 10-25 10z" fill="#bac3c6" stroke="#6f777b"/><rect x="843" y="538" width="38" height="18" rx="5" fill="#49362d"/>
+    <g filter="url(#glow)"><circle cx="196" cy="465" r="24" fill="#0b1014" stroke="#efb83c" stroke-width="4"/><text x="196" y="472" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#efb83c">1</text></g><g filter="url(#glow)"><circle cx="508" cy="379" r="24" fill="#0b1014" stroke="#efb83c" stroke-width="4"/><text x="508" y="386" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#efb83c">2</text></g><g filter="url(#glow)"><circle cx="921" cy="501" r="24" fill="#0b1014" stroke="#efb83c" stroke-width="4"/><text x="921" y="508" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#efb83c">3</text></g><g filter="url(#glow)"><circle cx="813" cy="492" r="24" fill="#0b1014" stroke="#efb83c" stroke-width="4"/><text x="813" y="499" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#efb83c">4</text></g>
+    
+    <rect x="32" y="32" width="215" height="34" rx="5" fill="#071018" fill-opacity=".88" stroke="#efb83c" stroke-opacity=".35"/>
+    <text x="48" y="55" font-family="Arial" font-weight="700" font-size="13" fill="#efb83c">CASE 0006 • قطار ليلي</text>
+    <rect x="18" y="18" width="1144" height="644" rx="10" fill="none" stroke="#efb83c" stroke-opacity=".18"/>
+    </svg>

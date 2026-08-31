@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 680">
+    <defs>
+      <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1c2334"/><stop offset="1" stop-color="#0b0d14"/></linearGradient>
+      <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3a4a6b"/><stop offset=".32" stop-color="#202329"/><stop offset="1" stop-color="#080b0e"/></linearGradient>
+      <radialGradient id="light"><stop stop-color="#e0b74b" stop-opacity=".43"/><stop offset=".42" stop-color="#e0b74b" stop-opacity=".10"/><stop offset="1" stop-color="#e0b74b" stop-opacity="0"/></radialGradient>
+      <filter id="shadow"><feDropShadow dx="0" dy="15" stdDeviation="12" flood-opacity=".42"/></filter>
+      <filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#e0b74b" flood-opacity=".35"/></filter>
+      <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+      <pattern id="floorGrid" width="110" height="60" patternUnits="userSpaceOnUse" patternTransform="skewX(-13)"><path d="M0 0h110v60H0z" fill="none" stroke="#596068" stroke-opacity=".18"/></pattern>
+    </defs>
+    <rect width="1180" height="680" fill="#0b0d14"/>
+    <rect x="18" y="18" width="1144" height="350" rx="10" fill="url(#wall)"/>
+    <rect x="18" y="350" width="1144" height="312" fill="url(#floor)"/>
+    <rect x="18" y="350" width="1144" height="312" fill="url(#floorGrid)"/>
+    <ellipse cx="483" cy="106" rx="260" ry="210" fill="url(#light)"/>
+    <rect x="127" y="109" width="298" height="220" fill="#081721" stroke="#45535d" stroke-width="10"/>
+    <line x1="276.0" y1="109" x2="276.0" y2="329" stroke="#45535d" stroke-width="5"/>
+    <line x1="127" y1="219.0" x2="425" y2="219.0" stroke="#45535d" stroke-width="5"/>
+    
+        <circle cx="285" cy="220" r="100" fill="#082332" stroke="#9b7c4c" stroke-width="18"/><circle cx="875" cy="220" r="100" fill="#082332" stroke="#9b7c4c" stroke-width="18"/>
+        <rect x="210" y="385" width="760" height="155" rx="18" fill="#594536" filter="url(#shadow)"/>
+        <rect x="820" y="420" width="120" height="90" fill="#2c3438"/>
+        
+    
+    <g transform="rotate(50 490 450)" opacity=".9">
+    <circle cx="490" cy="380" r="20" fill="none" stroke="#deded3" stroke-width="4"/>
+    <rect x="462" y="402" width="56" height="95" rx="20" fill="none" stroke="#deded3" stroke-width="4"/>
+    <line x1="472" y1="425" x2="405" y2="470" stroke="#deded3" stroke-width="4"/>
+    <line x1="508" y1="425" x2="575" y2="470" stroke="#deded3" stroke-width="4"/>
+    <line x1="475" y1="495" x2="440" y2="570" stroke="#deded3" stroke-width="4"/>
+    <line x1="505" y1="495" x2="545" y2="570" stroke="#deded3" stroke-width="4"/></g>
+    <path d="M181 572l55-10 25 10-25 10z" fill="#bac3c6" stroke="#6f777b"/><rect x="256" y="563" width="38" height="18" rx="5" fill="#49362d"/><rect x="505" y="357" width="64" height="40" rx="5" fill="#31414a" stroke="#d3aa3a" stroke-width="2"/><rect x="517" y="369" width="24" height="6" fill="#d3aa3a"/><rect x="291" y="431" width="56" height="36" rx="6" fill="#242a2e"/><circle cx="319" cy="449" r="12" fill="#0b151b" stroke="#7a8c96" stroke-width="3"/><path d="M461 434h32l-6 35h-20z" fill="none" stroke="#dce5e8" stroke-width="3"/><line x1="477" y1="469" x2="477" y2="487" stroke="#dce5e8" stroke-width="3"/>
+    <g filter="url(#glow)"><circle cx="226" cy="517" r="24" fill="#0b1014" stroke="#e0b74b" stroke-width="4"/><text x="226" y="524" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#e0b74b">1</text></g><g filter="url(#glow)"><circle cx="537" cy="322" r="24" fill="#0b1014" stroke="#e0b74b" stroke-width="4"/><text x="537" y="329" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#e0b74b">2</text></g><g filter="url(#glow)"><circle cx="319" cy="394" r="24" fill="#0b1014" stroke="#e0b74b" stroke-width="4"/><text x="319" y="401" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#e0b74b">3</text></g><g filter="url(#glow)"><circle cx="477" cy="397" r="24" fill="#0b1014" stroke="#e0b74b" stroke-width="4"/><text x="477" y="404" text-anchor="middle" font-family="Arial" font-weight="700" font-size="19" fill="#e0b74b">4</text></g>
+    
+    <rect x="32" y="32" width="215" height="34" rx="5" fill="#071018" fill-opacity=".88" stroke="#e0b74b" stroke-opacity=".35"/>
+    <text x="48" y="55" font-family="Arial" font-weight="700" font-size="13" fill="#e0b74b">CASE 0293 • كابينة سفينة</text>
+    <rect x="18" y="18" width="1144" height="644" rx="10" fill="none" stroke="#e0b74b" stroke-opacity=".18"/>
+    </svg>
