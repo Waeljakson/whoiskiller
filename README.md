@@ -33,3 +33,7 @@ Settings → Pages → Deploy from a branch → main → /root
 - تم تضمين جميع صور SVG داخل `assets-data.js` كـ Data URLs.
 - الصور تظهر حتى لو تعذر تحميل مجلد assets من GitHub Pages.
 - ملفات الصور الأصلية ما زالت موجودة داخل assets أيضًا.
+
+## v522 — Image Runtime Fix
+تم إصلاح توقف game.js الناتج عن مراجع DOM غير موجودة (`caseTitle` و `solvedCount`).
+المشكلة كانت توقف JavaScript قبل تعيين مصادر الصور، وليس فشل ملفات الصور نفسها.

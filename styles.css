@@ -270,3 +270,39 @@ img {
   .case-map { grid-template-columns: repeat(2,1fr); }
   .auth-card h2 { font-size: 31px; }
 }
+
+/* ===== v522 runtime/image fix ===== */
+.score small{
+  display:block;
+  margin-top:2px;
+  color:#8f99a2;
+  font-size:11px;
+}
+.scene-wrap{
+  min-height:590px;
+  background:#10161c;
+}
+#sceneImage{
+  width:100% !important;
+  height:590px !important;
+  min-height:590px !important;
+  object-fit:cover !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.portrait-file{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+}
+.evidence-card img{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+@media(max-width:760px){
+  .scene-wrap{min-height:340px}
+  #sceneImage{height:340px !important;min-height:340px !important}
+  .score small{font-size:10px}
+}

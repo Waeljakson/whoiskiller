@@ -1,6 +1,10 @@
 (() => {
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function safeText(selector,value){const el=$(selector);if(el)el.textContent=value}
+function safeHTML(selector,value){const el=$(selector);if(el)el.innerHTML=value}
+function safeSrc(selector,value){const el=$(selector);if(el)el.src=value}
+
 const S={index:0,points:0,solved:0,docs:new Set(),evidence:new Set(),hotspots:new Set(),questions:new Set(),contradictions:new Set(),selected:0,wrong:0,hint:false,view:"case"};
 const qBank=[
  ["where","أين كنت وقت الجريمة؟",["اين","فين","مكان","وقت"]],
@@ -15,7 +19,7 @@ function esc(x){return String(x??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt
 function rank(p){if(p>=250000)return"أسطورة التحقيق";if(p>=160000)return"مدير تحقيقات دولية";if(p>=100000)return"رئيس وحدة";if(p>=60000)return"محقق مخضرم";if(p>=30000)return"خبير جنائي";if(p>=15000)return"محقق أول";if(p>=6000)return"محقق ميداني";if(p>=1500)return"محقق مبتدئ";return"محقق متدرب"}
 function resetCase(){S.docs.clear();S.evidence.clear();S.hotspots.clear();S.questions.clear();S.contradictions.clear();S.selected=0;S.wrong=0;S.hint=false;$("#hintText").textContent="";$("#accusationMessage").classList.add("hidden")}
 function progress(){const cc=c();return Math.min(100,Math.round(Math.min(1,S.hotspots.size/3)*15+Math.min(1,S.docs.size/3)*18+Math.min(1,S.evidence.size/5)*32+Math.min(1,S.questions.size/5)*25+(S.contradictions.size?10:0)))}
-function hud(){ $("#points").textContent=S.points.toLocaleString("ar-EG");$("#rank").textContent=rank(S.points);$("#solvedCount").textContent=`${S.solved}/${CaseEngine.total}`;const p=progress();$("#progressLabel").textContent=p+"%";$("#progressMeter").style.width=p+"%";$("#energyText").textContent=Math.max(25,100-Math.min(75,S.wrong*10))+" / 100"}
+function hud(){ $("#points").textContent=S.points.toLocaleString("ar-EG");$("#rank").textContent=rank(S.points);$("#solvedCount").textContent=`${S.solved} / ${CaseEngine.total} قضية`;const p=progress();$("#progressLabel").textContent=p+"%";$("#progressMeter").style.width=p+"%";$("#energyText").textContent=Math.max(25,100-Math.min(75,S.wrong*10))+" / 100"}
 function setView(v){S.view=v;$$(".game-view").forEach(x=>x.classList.add("hidden"));$("#view-"+v)?.classList.remove("hidden");$$(".main-tab").forEach(b=>b.classList.toggle("active",b.dataset.view===v));if(v==="map")renderMap();if(v==="interrogate")renderInterrogate();window.scrollTo({top:0,behavior:"smooth"})}
 function portrait(s,seed=0){
  const n=Math.abs(Number(seed)||0)%64;
@@ -24,7 +28,21 @@ function portrait(s,seed=0){
 function setAllHTML(selector,html){$$(selector).forEach(el=>el.innerHTML=html)}
 function setAllText(selector,text){$$(selector).forEach(el=>el.textContent=text)}
 function renderCase(){
- const cc=c();$("#caseTitle").textContent=cc.title;$("#caseNo").textContent=`القضية ${cc.index+1} من ${CaseEngine.total}`;$("#caseScope").textContent=cc.scope;$("#caseCategory").textContent=cc.category;$("#caseLocation").textContent=`${cc.city}، ${cc.country}`;$("#caseDifficulty").textContent=cc.difficulty+"%";$("#caseReward").textContent=cc.reward.toLocaleString("ar-EG");$("#caseBrief").textContent=cc.brief;$("#victimName").textContent=cc.victim;$("#victimPlace").textContent=cc.location;$("#victimTime").textContent=cc.time;$("#sceneImage").src=gameAsset(`assets/scenes/${cc.sceneSlug}.svg`);$("#sceneCaption").textContent=cc.location;$("#timeline").innerHTML=cc.timeline.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join("");
+ const cc=c();
+ safeText("#mainCaseName",cc.title);
+ safeText("#caseNo",`القضية ${cc.index+1} من ${CaseEngine.total}`);
+ safeText("#caseScope",cc.scope);
+ safeText("#caseCategory",cc.category);
+ safeText("#caseLocation",`${cc.city}، ${cc.country}`);
+ safeText("#caseDifficulty",cc.difficulty+"%");
+ safeText("#caseReward",cc.reward.toLocaleString("ar-EG"));
+ safeText("#caseBrief",cc.brief);
+ safeText("#victimName",cc.victim);
+ safeText("#victimPlace",cc.location);
+ safeText("#victimTime",cc.time);
+ safeSrc("#sceneImage",gameAsset(`assets/scenes/${cc.sceneSlug}.svg`));
+ safeText("#sceneCaption",cc.location);
+ safeHTML("#timeline",cc.timeline.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join(""));
  renderHotspots();renderSuspects();renderEvidence();renderDocuments();renderInterrogate();renderTheory();hud();
 }
 function renderHotspots(){const cc=c();$("#hotspotLayer").innerHTML=cc.hotspots.map((h,i)=>`<button type="button" class="hotspot ${S.hotspots.has(i)?"done":""}" data-hotspot="${i}" style="--x:${[44,25,75,61][i%4]}%;--y:${[66,38,34,70][i%4]}%">${i+1}</button>`).join("")}
@@ -87,14 +105,26 @@ $("#accuseBtn").addEventListener("click",accuse);$("#nextCaseBtn").addEventListe
 $("#hintBtn").addEventListener("click",async()=>{if(!S.hint){S.hint=true;S.points=Math.max(0,S.points-50);await save()}$("#hintText").textContent="قارن توقيت سجل الدخول مع الأدلة الرقمية، ثم استجوب المشتبه الأعلى خطورة عن التوقيت والدليل.";hud()});
 $("#refreshLeaderboard").addEventListener("click",leaderboard);
 window.addEventListener("player-ready",e=>{const p=e.detail.profile||{};S.points=Number(p.points)||0;S.solved=Math.max(0,Number(p.cases_solved)||0);S.index=Math.min(CaseEngine.total-1,Math.max(0,Number(p.current_case)||0));if(S.index<S.solved&&S.solved<CaseEngine.total)S.index=S.solved;resetCase();renderCase();renderStats();leaderboard()});
+
+window.addEventListener("error",event=>{
+  console.error("WHOISKILLER runtime error:",event.error||event.message);
+  const scene=document.getElementById("sceneFinding");
+  if(scene && !scene.dataset.errorShown){
+    scene.dataset.errorShown="1";
+    scene.innerHTML="<b>تم اكتشاف خطأ تحميل</b><span>حدّث الصفحة مرة واحدة. إذا استمر الخطأ، استبدل ملفات الموقع بالنسخة الأخيرة كاملة.</span>";
+  }
+});
+
 renderCase();renderStats();
 
 document.addEventListener("error",e=>{
   const img=e.target;
   if(img && img.tagName==="IMG" && img.dataset.fallbackDone!=="1"){
     img.dataset.fallbackDone="1";
-    const fallback=window.GAME_ASSETS?.["assets/evidence/document.svg"];
-    if(fallback && img.src!==fallback) img.src=fallback;
+    let fallback=window.GAME_ASSETS?.["assets/scenes/hotel.svg"];
+    if(img.closest(".evidence-card")) fallback=window.GAME_ASSETS?.["assets/evidence/document.svg"] || fallback;
+    if(img.classList.contains("portrait-file")) fallback=window.GAME_ASSETS?.["assets/portraits/p00.svg"] || fallback;
+    if(fallback) img.src=fallback;
   }
 },true);
 
