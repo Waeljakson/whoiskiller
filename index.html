@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0d10" />
+  <title>من القاتل؟ | لعبة التحقيق الجنائي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">؟</div>
+        <div>
+          <span class="eyebrow">CRIMINAL INVESTIGATION GAME</span>
+          <h1>من القاتل؟</h1>
+        </div>
+      </div>
+      <div class="player-mini">
+        <div class="mini-stat"><strong id="points">0</strong><span>نقطة</span></div>
+        <div class="mini-stat wide"><strong id="rank">محقق مبتدئ</strong><span>الرتبة</span></div>
+      </div>
+    </header>
+
+    <main class="game-layout">
+      <aside class="sidebar panel">
+        <div class="sidebar-title">مركز التحقيق</div>
+        <button class="nav-btn active" data-tab="case"><span class="nav-num">01</span><span>ملف القضية</span></button>
+        <button class="nav-btn" data-tab="evidence"><span class="nav-num">02</span><span>الأدلة والأحراز</span></button>
+        <button class="nav-btn" data-tab="suspects"><span class="nav-num">03</span><span>المتهمون</span></button>
+        <button class="nav-btn" data-tab="league"><span class="nav-num">04</span><span>دوري المحققين</span></button>
+        <div class="sidebar-separator"></div>
+        <div class="case-progress-box">
+          <span>التقدم في التحقيق</span><strong id="progressLabel">0%</strong>
+          <div class="progress-bar"><i id="progressMeter" style="width:0%"></i></div>
+        </div>
+        <div class="sidebar-note">كل قرار خاطئ قد يخصم من نقاطك. لا توجه الاتهام قبل ربط الأدلة بالتوقيت والدافع والفرصة.</div>
+      </aside>
+
+      <section class="workspace">
+        <section id="tab-case" class="tab-page">
+          <div class="case-header panel">
+            <div>
+              <div class="badge-row"><span id="scopeBadge" class="badge yellow-badge">المستوى المحلي</span><span id="caseNo" class="badge">القضية 1 / 3</span></div>
+              <h2 id="caseTitle">سرقة خزنة الميناء</h2>
+              <p id="caseMeta">الإسكندرية • مستوى 1 • صعوبة 42%</p>
+            </div>
+            <div class="difficulty-ring"><span id="difficultyLabel">42%</span><small>صعوبة</small></div>
+          </div>
+
+          <div class="case-grid">
+            <div class="scene panel">
+              <div class="scene-topline"><span>CRIME SCENE / 01</span><span class="live-dot">ACTIVE CASE</span></div>
+              <div class="evidence-board">
+                <div class="paper paper-a"><span>سجل دخول</span><strong>22:14</strong><small>بطاقة موظف</small></div>
+                <div class="paper paper-b dark-paper"><span>E-03</span><strong>قطعة قماش</strong><small>أثر زيت صناعي</small></div>
+                <div class="paper paper-c photo-paper"><span>كاميرا الرصيف</span><div class="photo-box"></div><small>تعطلت 11 دقيقة</small></div>
+                <svg viewBox="0 0 700 390" aria-hidden="true"><path d="M120,88 C260,120 405,70 575,115"/><path d="M120,100 C230,220 335,255 380,315"/><path d="M585,125 C505,205 450,250 390,315"/></svg>
+                <div class="scene-center"><span>غرفة الخزنة</span><strong>الرصيف 7</strong></div>
+              </div>
+            </div>
+            <div class="story-stack">
+              <article class="panel story-card"><span class="section-kicker">ملخص الجريمة</span><p id="story">اختفى صندوق مستندات حساس من خزنة شركة شحن بين 22:00 و22:30. لا يوجد كسر في الباب، والكاميرا تعطلت 11 دقيقة فقط.</p></article>
+              <article class="panel stat-card"><div class="stat-line"><span>تعقيد القضية</span><strong id="difficultyText">42%</strong></div><div class="progress-bar large"><i id="difficultyMeter" style="width:42%"></i></div><div class="hint">ركز على نافذة الزمن. ليس كل دليل قوي بصريًا دليلًا حاسمًا.</div></article>
+              <button id="startInvestigation" class="primary-btn">ابدأ تحليل الأدلة</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-evidence" class="tab-page hidden">
+          <div class="section-head"><div><span class="section-kicker">FORENSIC LAB</span><h2>معمل الأدلة والأحراز</h2><p>اختر الأدلة المترابطة ثم نفّذ التحليل المنطقي.</p></div><div class="selection-counter">المحدد<strong id="evidenceCount">0</strong></div></div>
+          <div id="evidenceGrid" class="cards-grid"></div>
+          <div class="action-row"><button id="analyzeEvidence" class="primary-btn compact">تحليل الأدلة المحددة</button><button id="clearEvidence" class="ghost-btn">مسح التحديد</button></div>
+          <div id="analysisResult" class="analysis-result hidden" aria-live="polite"></div>
+        </section>
+
+        <section id="tab-suspects" class="tab-page hidden">
+          <div class="section-head"><div><span class="section-kicker">INTERROGATION ROOM</span><h2>غرفة المشتبهين</h2><p>قارن بين الدافع، الحجة الزمنية، والفرصة.</p></div></div>
+          <div class="suspect-layout"><div id="suspectGrid" class="cards-grid suspects"></div><aside class="panel detective-note"><span class="section-kicker">مذكرة المحقق</span><p>لا يكفي وجود الدافع. ابحث عن دليل يربط المشتبه به بمكان الجريمة وفي نفس النافذة الزمنية، ثم راجع احتمال وجود دليل مزروع للتضليل.</p><div class="selected-person"><span>المشتبه المحدد</span><strong id="selectedSuspectName">لم يتم الاختيار</strong></div><button id="accuse" class="danger-btn">توجيه الاتهام النهائي</button></aside></div>
+        </section>
+
+        <section id="tab-league" class="tab-page hidden">
+          <div class="league-grid">
+            <article class="panel career-card"><span class="section-kicker">CAREER PATH</span><h2>المسار المهني</h2><div class="career-level current"><span>محقق مبتدئ</span><b>0+</b></div><div class="career-level"><span>محقق ميداني</span><b>350+</b></div><div class="career-level"><span>محقق أول</span><b>800+</b></div><div class="career-level"><span>محقق مخضرم</span><b>1500+</b></div><p class="career-hint">بعد إنهاء القضايا المحلية، تفتح القضايا الدولية ذات الأدلة المتعارضة والعقوبات الأكبر على القرارات الخاطئة.</p></article>
+            <article class="panel leaderboard"><div class="leaderboard-head"><div><span class="section-kicker">GLOBAL LEAGUE</span><h2>ترتيب المحققين</h2></div><span class="badge yellow-badge">Season 01</span></div><div class="table-wrap"><table><thead><tr><th>#</th><th>المحقق</th><th>الدولة</th><th>النقاط</th></tr></thead><tbody><tr><td>1</td><td>Falcon_77</td><td>السعودية</td><td>12,840</td></tr><tr><td>2</td><td>BlackLens</td><td>مصر</td><td>12,310</td></tr><tr><td>3</td><td>NovaCase</td><td>تركيا</td><td>11,970</td></tr><tr class="you-row"><td>—</td><td>أنت</td><td>الموسم الحالي</td><td id="leaguePoints">0</td></tr></tbody></table></div></article>
+          </div>
+        </section>
+
+        <div id="caseResult" class="case-result hidden" aria-live="polite"></div>
+        <div id="caseActions" class="action-row hidden"><button id="nextCase" class="primary-btn compact">الانتقال للقضية التالية</button><button id="retryCase" class="ghost-btn">إعادة التحقيق</button></div>
+      </section>
+    </main>
+
+    <footer class="footer"><div class="footer-line"></div><p>جميع الحقوق محفوظة © 2026</p><strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong><a href="tel:0582712620">0582712620</a></footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
