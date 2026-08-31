@@ -12,40 +12,178 @@
 </head>
 <body>
   <section id="authGate" class="auth-gate">
-    <div class="auth-card panel">
-      <div class="auth-brand">
-        <div class="brand-mark">؟</div>
-        <div>
-          <span class="eyebrow">DETECTIVE ACCESS</span>
-          <h2>دخول المحقق</h2>
-          <p>سجّل حسابك لحفظ نقاطك ورتبتك وتقدم القضايا.</p>
+    <div class="auth-atmosphere" aria-hidden="true">
+      <span class="glow glow-a"></span>
+      <span class="glow glow-b"></span>
+      <span class="grid-noise"></span>
+    </div>
+
+    <div class="login-shell">
+      <section class="auth-visual" aria-label="مقدمة لعبة من القاتل">
+        <div class="visual-top">
+          <div class="hero-brand">
+            <div class="hero-logo"><span>؟</span></div>
+            <div>
+              <span class="hero-overline">WHO IS THE KILLER?</span>
+              <strong>من القاتل؟</strong>
+            </div>
+          </div>
+          <span class="classified-badge"><i></i> ملف سري</span>
         </div>
-      </div>
 
-      <div class="auth-tabs">
-        <button id="showLogin" type="button" class="auth-tab active">تسجيل الدخول</button>
-        <button id="showSignup" type="button" class="auth-tab">محقق جديد</button>
-      </div>
-
-      <form id="loginForm" class="auth-form">
-        <label>البريد الإلكتروني<input name="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
-        <label>كلمة المرور<input name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="••••••••"></label>
-        <button type="submit" class="primary-btn">دخول إلى غرفة التحقيق</button>
-      </form>
-
-      <form id="signupForm" class="auth-form hidden">
-        <div class="auth-grid">
-          <label>الاسم<input name="displayName" type="text" minlength="2" maxlength="80" required placeholder="الاسم الكامل"></label>
-          <label>اسم المحقق<input name="username" type="text" minlength="3" maxlength="24" required placeholder="Detective_01" dir="ltr"></label>
+        <div class="hero-copy">
+          <span class="case-number">CASE FILE // 001</span>
+          <h1>الحقيقة لا تختفي.<br><em>هي فقط تنتظر محققًا أذكى.</em></h1>
+          <p>
+            حلّل مسرح الجريمة، اربط الأدلة، استجوب المشتبهين، واتخذ قرارك قبل أن يفلت القاتل.
+            كل قضية أصعب من السابقة، وكل خطأ له ثمن.
+          </p>
         </div>
-        <label>الدولة<input name="country" type="text" minlength="2" maxlength="60" required placeholder="السعودية"></label>
-        <label>البريد الإلكتروني<input name="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
-        <label>كلمة المرور<input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="8 أحرف على الأقل"></label>
-        <button type="submit" class="primary-btn">إنشاء ملف المحقق</button>
-      </form>
 
-      <div id="authStatus" class="auth-status" aria-live="polite"></div>
-      <div class="auth-security">يتم حفظ الحساب والتقدم في قاعدة بيانات محمية، ولا تظهر كلمة المرور داخل الموقع أو قاعدة بيانات اللاعبين.</div>
+        <div class="crime-desk" aria-hidden="true">
+          <div class="desk-grid"></div>
+          <div class="red-thread thread-one"></div>
+          <div class="red-thread thread-two"></div>
+          <div class="evidence-note note-main">
+            <span class="note-code">EVIDENCE / 07</span>
+            <b>آخر ظهور</b>
+            <strong>22:14</strong>
+            <small>الكاميرا الشرقية</small>
+          </div>
+          <div class="evidence-note note-photo">
+            <span class="note-code">CAM / 03</span>
+            <div class="fake-photo">
+              <i></i><i></i><i></i>
+            </div>
+            <small>لقطة غير مكتملة</small>
+          </div>
+          <div class="evidence-note note-dark">
+            <span class="note-code">FORENSIC</span>
+            <b>بصمة جزئية</b>
+            <small>مطابقة: 72%</small>
+          </div>
+          <div class="evidence-seal">CONFIDENTIAL</div>
+          <div class="desk-label">
+            <span>ACTIVE INVESTIGATION</span>
+            <b>لا تثق في أول استنتاج</b>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div><strong>03</strong><span>قضايا أولية</span></div>
+          <div><strong>04</strong><span>رتب للمحقق</span></div>
+          <div><strong>∞</strong><span>احتمالات التحقيق</span></div>
+        </div>
+      </section>
+
+      <section class="auth-side">
+        <div class="mobile-brand">
+          <div class="hero-logo small"><span>؟</span></div>
+          <div><span>WHO IS THE KILLER?</span><strong>من القاتل؟</strong></div>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-card-head">
+            <span class="access-label"><i></i> SECURE DETECTIVE ACCESS</span>
+            <h2>دخول غرفة التحقيق</h2>
+            <p>سجّل دخولك لاستكمال القضايا وحفظ نقاطك وترتيبك عالميًا.</p>
+          </div>
+
+          <div class="auth-tabs" role="tablist" aria-label="نوع الدخول">
+            <button id="showLogin" type="button" class="auth-tab active" role="tab" aria-selected="true">تسجيل الدخول</button>
+            <button id="showSignup" type="button" class="auth-tab" role="tab" aria-selected="false">إنشاء حساب</button>
+          </div>
+
+          <form id="loginForm" class="auth-form">
+            <label class="field">
+              <span>البريد الإلكتروني</span>
+              <div class="input-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg>
+                <input name="email" type="email" autocomplete="email" required placeholder="name@example.com">
+              </div>
+            </label>
+
+            <label class="field">
+              <span>كلمة المرور</span>
+              <div class="input-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <input id="loginPassword" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="••••••••">
+                <button class="password-toggle" type="button" data-password-target="loginPassword" aria-label="إظهار أو إخفاء كلمة المرور">عرض</button>
+              </div>
+            </label>
+
+            <button type="submit" class="auth-submit">
+              <span>دخول إلى غرفة التحقيق</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+
+            <div class="auth-divider"><span>ملفك الشخصي محفوظ ومشفّر</span></div>
+          </form>
+
+          <form id="signupForm" class="auth-form hidden">
+            <div class="form-two">
+              <label class="field">
+                <span>الاسم الكامل</span>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6"/></svg>
+                  <input name="displayName" type="text" minlength="2" maxlength="80" required placeholder="محمد أحمد">
+                </div>
+              </label>
+
+              <label class="field">
+                <span>اسم المحقق</span>
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M7 16l3-8 2 5 2-9 3 12"/></svg>
+                  <input name="username" type="text" minlength="3" maxlength="24" required placeholder="Detective_01" dir="ltr">
+                </div>
+              </label>
+            </div>
+
+            <label class="field">
+              <span>الدولة</span>
+              <div class="input-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+                <input name="country" type="text" minlength="2" maxlength="60" required placeholder="السعودية">
+              </div>
+            </label>
+
+            <label class="field">
+              <span>البريد الإلكتروني</span>
+              <div class="input-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg>
+                <input name="email" type="email" autocomplete="email" required placeholder="name@example.com">
+              </div>
+            </label>
+
+            <label class="field">
+              <span>كلمة المرور</span>
+              <div class="input-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="8 أحرف على الأقل">
+                <button class="password-toggle" type="button" data-password-target="signupPassword" aria-label="إظهار أو إخفاء كلمة المرور">عرض</button>
+              </div>
+            </label>
+
+            <button type="submit" class="auth-submit">
+              <span>إنشاء ملف المحقق</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </form>
+
+          <div id="authStatus" class="auth-status" aria-live="polite"></div>
+
+          <div class="security-row">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
+            <span>حسابك وتقدمك محفوظان بأمان عبر Supabase Auth.</span>
+          </div>
+        </div>
+
+        <div class="auth-rights">
+          <span>جميع الحقوق محفوظة © 2026</span>
+          <strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong>
+          <a href="tel:0582712620">0582712620</a>
+        </div>
+      </section>
     </div>
   </section>
   <div class="app-shell">

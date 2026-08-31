@@ -26,6 +26,8 @@
     signupForm.classList.toggle('hidden', login);
     loginTab.classList.toggle('active', login);
     signupTab.classList.toggle('active', !login);
+    loginTab.setAttribute('aria-selected', String(login));
+    signupTab.setAttribute('aria-selected', String(!login));
     status('');
   }
 
@@ -142,6 +144,17 @@
     loadLeaderboard
   };
 
+  document.querySelectorAll('[data-password-target]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const input = document.getElementById(button.dataset.passwordTarget);
+      if (!input) return;
+      const reveal = input.type === 'password';
+      input.type = reveal ? 'text' : 'password';
+      button.textContent = reveal ? 'إخفاء' : 'عرض';
+      button.setAttribute('aria-pressed', String(reveal));
+    });
+  });
+
   loginTab.addEventListener('click', () => switchForm('login'));
   signupTab.addEventListener('click', () => switchForm('signup'));
 
@@ -158,22 +171,28 @@
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     status('جارٍ تسجيل الدخول...');
+    const submit = loginForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
     const form = new FormData(loginForm);
     const email = String(form.get('email') || '').trim();
     const password = String(form.get('password') || '');
 
     const { data, error } = await client.auth.signInWithPassword({ email, password });
     if (error) {
+      submit.disabled = false;
       status('تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.', true);
       return;
     }
     status('');
     await enterGame(data.session);
+    submit.disabled = false;
   });
 
   signupForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     status('جارٍ إنشاء حساب المحقق...');
+    const submit = signupForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
     const form = new FormData(signupForm);
     const displayName = String(form.get('displayName') || '').trim();
     const username = String(form.get('username') || '').trim();
@@ -181,10 +200,10 @@
     const email = String(form.get('email') || '').trim();
     const password = String(form.get('password') || '');
 
-    if (displayName.length < 2) return status('أدخل الاسم بشكل صحيح.', true);
-    if (!/^[A-Za-z0-9_\-]{3,24}$/.test(username)) return status('اسم المحقق يجب أن يكون 3-24 حرفاً إنجليزياً/رقماً ويمكن استخدام _ أو -.', true);
-    if (country.length < 2) return status('أدخل الدولة.', true);
-    if (password.length < 8) return status('كلمة المرور يجب ألا تقل عن 8 أحرف.', true);
+    if (displayName.length < 2) { submit.disabled = false; return status('أدخل الاسم بشكل صحيح.', true); }
+    if (!/^[A-Za-z0-9_\-]{3,24}$/.test(username)) { submit.disabled = false; return status('اسم المحقق يجب أن يكون 3-24 حرفاً إنجليزياً/رقماً ويمكن استخدام _ أو -.', true); }
+    if (country.length < 2) { submit.disabled = false; return status('أدخل الدولة.', true); }
+    if (password.length < 8) { submit.disabled = false; return status('كلمة المرور يجب ألا تقل عن 8 أحرف.', true); }
 
     const { data, error } = await client.auth.signUp({
       email,
@@ -193,6 +212,7 @@
     });
 
     if (error) {
+      submit.disabled = false;
       if ((error.message || '').toLowerCase().includes('duplicate')) {
         status('تعذر إنشاء الحساب. جرّب بريداً أو اسم محقق مختلفاً.', true);
       } else {
@@ -204,9 +224,11 @@
     if (data.session) {
       status('تم إنشاء الحساب بنجاح.');
       await enterGame(data.session);
+      submit.disabled = false;
     } else {
       status('تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب ثم سجّل الدخول.');
       switchForm('login');
+      submit.disabled = false;
     }
   });
 
