@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 180">
-<defs><radialGradient id="g"><stop stop-color="#454d54" stop-opacity=".9"/><stop offset="1" stop-color="#0d1115"/></radialGradient></defs>
-<rect width="260" height="180" rx="12" fill="#0b0f13"/><rect x="10" y="10" width="240" height="160" rx="10" fill="url(#g)" stroke="#31383f"/>
-<circle cx="130" cy="80" r="48" fill="#11171c" stroke="#f4c927" stroke-opacity=".25" stroke-width="2"/>
-<text x="130" y="89" text-anchor="middle" font-family="Arial" font-size="34" font-weight="800" fill="#f4c927">أد</text>
-<rect x="45" y="143" width="170" height="2" fill="#f4c927" opacity=".3"/>
-<text x="130" y="160" text-anchor="middle" font-family="Arial" font-size="11" fill="#c2c9cf">أداة</text>
-</svg>
