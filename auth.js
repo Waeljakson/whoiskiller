@@ -238,7 +238,7 @@
 
       status('تم إنشاء الحساب. جارٍ تسجيل الدخول...');
 
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await client.auth.signInWithPassword({
         email,
         password
       });

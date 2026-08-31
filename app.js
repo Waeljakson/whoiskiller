@@ -6,14 +6,51 @@ const cases=[
 const state={index:0,points:0,selectedEvidence:new Set(),selectedSuspect:null,analyzed:false,solved:false};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 function getRank(){return state.points>=1500?"محقق مخضرم":state.points>=800?"محقق أول":state.points>=350?"محقق ميداني":"محقق مبتدئ"}
-function setTab(name){$$('.tab-page').forEach(p=>p.classList.add('hidden'));$('#tab-'+name).classList.remove('hidden');$$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name))}
+function setTab(name){
+  $$('.tab-page').forEach(p=>p.classList.add('hidden'));
+  const page=$('#tab-'+name);
+  if(!page) return;
+  page.classList.remove('hidden');
+  $$('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  if(name==='suspects'){
+    renderSuspects();
+    requestAnimationFrame(()=>renderSuspects());
+  }
+  if(name==='evidence'){
+    renderEvidence();
+  }
+}
 function updateProgress(){const v=Math.min(100,state.selectedEvidence.size*11+(state.analyzed?18:0)+(state.selectedSuspect?16:0)+(state.solved?25:0));$('#progressLabel').textContent=v+'%';$('#progressMeter').style.width=v+'%'}
 function renderEvidence(){const c=cases[state.index],g=$('#evidenceGrid');g.innerHTML='';c.evidence.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='evidence-card'+(state.selectedEvidence.has(x.id)?' selected':'');b.dataset.evidence=x.id;b.innerHTML=`<div class="card-top"><span class="code">E-${String(i+1).padStart(2,'0')}</span><span class="type">${x.type}</span></div><h3>${x.name}</h3><p>${x.text}</p>`;g.appendChild(b)});$('#evidenceCount').textContent=state.selectedEvidence.size}
-function renderSuspects(){const c=cases[state.index],g=$('#suspectGrid');g.innerHTML='';c.suspects.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='suspect-card'+(state.selectedSuspect===s.name?' selected':'');b.dataset.suspect=s.name;b.innerHTML=`<div class="suspect-avatar">${String.fromCharCode(65+i)}</div><h3>${s.name}</h3><p>${s.role}</p><div class="suspect-meta"><div><b>الدافع:</b> ${s.motive}</div><div><b>الحجة:</b> ${s.alibi}</div><div><b>الاشتباه:</b> ${s.risk}</div></div>`;g.appendChild(b)});$('#selectedSuspectName').textContent=state.selectedSuspect||'لم يتم الاختيار'}
+function renderSuspects(){
+  const g=$('#suspectGrid');
+  if(!g) return;
+  const c=cases[state.index] || cases[0];
+  const suspects=Array.isArray(c?.suspects)?c.suspects:[];
+  g.innerHTML='';
+  if(!suspects.length){
+    g.innerHTML='<div class="suspects-empty">تعذر تحميل المشتبهين. أعد فتح التبويب.</div>';
+    return;
+  }
+  suspects.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='suspect-card'+(state.selectedSuspect===s.name?' selected':'');
+    b.dataset.suspect=s.name;
+    b.innerHTML=`<div class="suspect-avatar">${String.fromCharCode(65+i)}</div><h3>${s.name}</h3><p>${s.role}</p><div class="suspect-meta"><div><b>الدافع:</b> ${s.motive}</div><div><b>الحجة:</b> ${s.alibi}</div><div><b>الاشتباه:</b> ${s.risk}</div></div>`;
+    g.appendChild(b);
+  });
+  const selected=$('#selectedSuspectName');
+  if(selected) selected.textContent=state.selectedSuspect||'لم يتم الاختيار';
+}
 function render(){const c=cases[state.index];$('#caseTitle').textContent=c.title;$('#caseMeta').textContent=`${c.meta} • صعوبة ${c.difficulty}%`;$('#scopeBadge').textContent=c.scope;$('#story').textContent=c.story;$('#difficultyLabel').textContent=c.difficulty+'%';$('#difficultyText').textContent=c.difficulty+'%';$('#difficultyMeter').style.width=c.difficulty+'%';$('.difficulty-ring').style.background=`radial-gradient(circle,#111419 55%,transparent 57%),conic-gradient(var(--yellow) 0 ${c.difficulty}%,#2a2f35 ${c.difficulty}% 100%)`;$('#points').textContent=state.points.toLocaleString('ar-EG');$('#leaguePoints').textContent=state.points.toLocaleString('ar-EG');$('#rank').textContent=getRank();$('#caseNo').textContent=`القضية ${state.index+1} / ${cases.length}`;renderEvidence();renderSuspects();updateProgress();$('#caseResult').classList.add('hidden');$('#caseActions').classList.add('hidden')}
 function showAnalysis(m){$('#analysisResult').textContent=m;$('#analysisResult').classList.remove('hidden')}
 function analyzeEvidence(){const c=cases[state.index];if(state.selectedEvidence.size<2){showAnalysis('اختر دليلين على الأقل حتى يمكن بناء علاقة منطقية بينهما.');return}state.analyzed=true;const sel=c.evidence.filter(x=>state.selectedEvidence.has(x.id)),k=sel.filter(x=>x.key).length;showAnalysis(k>=3?'تحليل قوي: الأدلة المختارة تكوّن سلسلة مترابطة من الفرصة + التوقيت + الارتباط بمكان الجريمة. انتقل الآن للمشتبهين وحدد صاحب التناقض الأقوى.':k===2?'هناك رابط مهم، لكن السلسلة ما زالت ناقصة. ابحث عن دليل ثالث يربط التوقيت بمكان الجريمة.':'الترابط ضعيف. يبدو أنك اعتمدت على أدلة لافتة لكنها لا تثبت الفرصة الزمنية. أعد تقييم اختيارك.');updateProgress()}
 function showResult(ok,m){const b=$('#caseResult');b.className='case-result'+(ok?'':' error');b.innerHTML=`<strong>${ok?'القضية مغلقة ✓':'مراجعة التحقيق'}</strong><div>${m}</div>`;b.classList.remove('hidden');$('#caseActions').classList.remove('hidden');$('#nextCase').disabled=!ok||state.index>=cases.length-1}
 function accuse(){const c=cases[state.index];if(!state.selectedSuspect){showResult(false,'يجب اختيار مشتبه قبل توجيه الاتهام.');return}if(!state.analyzed||state.selectedEvidence.size<3){showResult(false,'ملف الاتهام غير مكتمل. حلل ثلاثة أدلة على الأقل قبل القرار النهائي.');return}const k=c.evidence.filter(x=>state.selectedEvidence.has(x.id)&&x.key).length,ok=state.selectedSuspect===c.correct&&k>=3;if(ok){if(!state.solved){state.points+=c.reward;state.solved=true}showResult(true,`تم حل القضية. الاستنتاج صحيح لأنك جمعت الأدلة الحاسمة وحددت التناقض الزمني في أقوال ${c.correct}. حصلت على ${c.reward} نقطة.`)}else{state.points=Math.max(0,state.points-90);showResult(false,'الاتهام غير صحيح أو غير مدعوم بما يكفي. خُصم 90 نقطة. راجع الأدلة المضللة وابحث عن السلسلة التي تربط المكان بالتوقيت والفرصة.')}$('#points').textContent=state.points.toLocaleString('ar-EG');$('#leaguePoints').textContent=state.points.toLocaleString('ar-EG');$('#rank').textContent=getRank();updateProgress()}
 function resetCase(){state.selectedEvidence.clear();state.selectedSuspect=null;state.analyzed=false;state.solved=false;$('#analysisResult').classList.add('hidden');render();setTab('case')}
-$$('.nav-btn').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));$('#startInvestigation').addEventListener('click',()=>setTab('evidence'));$('#evidenceGrid').addEventListener('click',e=>{const b=e.target.closest('[data-evidence]');if(!b)return;const id=b.dataset.evidence;state.selectedEvidence.has(id)?state.selectedEvidence.delete(id):state.selectedEvidence.add(id);renderEvidence();updateProgress()});$('#suspectGrid').addEventListener('click',e=>{const b=e.target.closest('[data-suspect]');if(!b)return;state.selectedSuspect=b.dataset.suspect;renderSuspects();updateProgress()});$('#analyzeEvidence').addEventListener('click',analyzeEvidence);$('#clearEvidence').addEventListener('click',()=>{state.selectedEvidence.clear();state.analyzed=false;renderEvidence();$('#analysisResult').classList.add('hidden');updateProgress()});$('#accuse').addEventListener('click',accuse);$('#retryCase').addEventListener('click',resetCase);$('#nextCase').addEventListener('click',()=>{if(state.index<cases.length-1){state.index++;state.selectedEvidence.clear();state.selectedSuspect=null;state.analyzed=false;state.solved=false;render();setTab('case')}});render();
+$$('.nav-btn').forEach(b=>b.addEventListener('click',()=>{
+  const tab=b.dataset.tab;
+  setTab(tab);
+  if(tab==='suspects') setTimeout(renderSuspects,0);
+}));$('#startInvestigation').addEventListener('click',()=>setTab('evidence'));$('#evidenceGrid').addEventListener('click',e=>{const b=e.target.closest('[data-evidence]');if(!b)return;const id=b.dataset.evidence;state.selectedEvidence.has(id)?state.selectedEvidence.delete(id):state.selectedEvidence.add(id);renderEvidence();updateProgress()});$('#suspectGrid').addEventListener('click',e=>{const b=e.target.closest('[data-suspect]');if(!b)return;state.selectedSuspect=b.dataset.suspect;renderSuspects();updateProgress()});$('#analyzeEvidence').addEventListener('click',analyzeEvidence);$('#clearEvidence').addEventListener('click',()=>{state.selectedEvidence.clear();state.analyzed=false;renderEvidence();$('#analysisResult').classList.add('hidden');updateProgress()});$('#accuse').addEventListener('click',accuse);$('#retryCase').addEventListener('click',resetCase);$('#nextCase').addEventListener('click',()=>{if(state.index<cases.length-1){state.index++;state.selectedEvidence.clear();state.selectedSuspect=null;state.analyzed=false;state.solved=false;render();setTab('case')}});render();
