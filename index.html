@@ -11,6 +11,43 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <section id="authGate" class="auth-gate">
+    <div class="auth-card panel">
+      <div class="auth-brand">
+        <div class="brand-mark">؟</div>
+        <div>
+          <span class="eyebrow">DETECTIVE ACCESS</span>
+          <h2>دخول المحقق</h2>
+          <p>سجّل حسابك لحفظ نقاطك ورتبتك وتقدم القضايا.</p>
+        </div>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="showLogin" type="button" class="auth-tab active">تسجيل الدخول</button>
+        <button id="showSignup" type="button" class="auth-tab">محقق جديد</button>
+      </div>
+
+      <form id="loginForm" class="auth-form">
+        <label>البريد الإلكتروني<input name="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
+        <label>كلمة المرور<input name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="••••••••"></label>
+        <button type="submit" class="primary-btn">دخول إلى غرفة التحقيق</button>
+      </form>
+
+      <form id="signupForm" class="auth-form hidden">
+        <div class="auth-grid">
+          <label>الاسم<input name="displayName" type="text" minlength="2" maxlength="80" required placeholder="الاسم الكامل"></label>
+          <label>اسم المحقق<input name="username" type="text" minlength="3" maxlength="24" required placeholder="Detective_01" dir="ltr"></label>
+        </div>
+        <label>الدولة<input name="country" type="text" minlength="2" maxlength="60" required placeholder="السعودية"></label>
+        <label>البريد الإلكتروني<input name="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
+        <label>كلمة المرور<input name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="8 أحرف على الأقل"></label>
+        <button type="submit" class="primary-btn">إنشاء ملف المحقق</button>
+      </form>
+
+      <div id="authStatus" class="auth-status" aria-live="polite"></div>
+      <div class="auth-security">يتم حفظ الحساب والتقدم في قاعدة بيانات محمية، ولا تظهر كلمة المرور داخل الموقع أو قاعدة بيانات اللاعبين.</div>
+    </div>
+  </section>
   <div class="app-shell">
     <header class="topbar">
       <div class="brand-wrap">
@@ -20,9 +57,13 @@
           <h1>من القاتل؟</h1>
         </div>
       </div>
-      <div class="player-mini">
-        <div class="mini-stat"><strong id="points">0</strong><span>نقطة</span></div>
-        <div class="mini-stat wide"><strong id="rank">محقق مبتدئ</strong><span>الرتبة</span></div>
+      <div class="player-actions">
+        <div class="player-name-box"><span>المحقق</span><strong id="headerPlayerName">زائر</strong></div>
+        <div class="player-mini">
+          <div class="mini-stat"><strong id="points">0</strong><span>نقطة</span></div>
+          <div class="mini-stat wide"><strong id="rank">محقق مبتدئ</strong><span>الرتبة</span></div>
+        </div>
+        <button id="logoutBtn" type="button" class="logout-btn hidden">تسجيل الخروج</button>
       </div>
     </header>
 
@@ -86,7 +127,7 @@
         <section id="tab-league" class="tab-page hidden">
           <div class="league-grid">
             <article class="panel career-card"><span class="section-kicker">CAREER PATH</span><h2>المسار المهني</h2><div class="career-level current"><span>محقق مبتدئ</span><b>0+</b></div><div class="career-level"><span>محقق ميداني</span><b>350+</b></div><div class="career-level"><span>محقق أول</span><b>800+</b></div><div class="career-level"><span>محقق مخضرم</span><b>1500+</b></div><p class="career-hint">بعد إنهاء القضايا المحلية، تفتح القضايا الدولية ذات الأدلة المتعارضة والعقوبات الأكبر على القرارات الخاطئة.</p></article>
-            <article class="panel leaderboard"><div class="leaderboard-head"><div><span class="section-kicker">GLOBAL LEAGUE</span><h2>ترتيب المحققين</h2></div><span class="badge yellow-badge">Season 01</span></div><div class="table-wrap"><table><thead><tr><th>#</th><th>المحقق</th><th>الدولة</th><th>النقاط</th></tr></thead><tbody><tr><td>1</td><td>Falcon_77</td><td>السعودية</td><td>12,840</td></tr><tr><td>2</td><td>BlackLens</td><td>مصر</td><td>12,310</td></tr><tr><td>3</td><td>NovaCase</td><td>تركيا</td><td>11,970</td></tr><tr class="you-row"><td>—</td><td>أنت</td><td>الموسم الحالي</td><td id="leaguePoints">0</td></tr></tbody></table></div></article>
+            <article class="panel leaderboard"><div class="leaderboard-head"><div><span class="section-kicker">GLOBAL LEAGUE</span><h2>ترتيب المحققين</h2></div><span class="badge yellow-badge">Season 01</span></div><div class="table-wrap"><table><thead><tr><th>#</th><th>المحقق</th><th>الدولة</th><th>النقاط</th></tr></thead><tbody id="leaderboardBody"><tr><td colspan="4" class="loading-row">سجّل الدخول لعرض ترتيب المحققين</td></tr></tbody></table></div></article>
           </div>
         </section>
 
@@ -97,6 +138,9 @@
 
     <footer class="footer"><div class="footer-line"></div><p>جميع الحقوق محفوظة © 2026</p><strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong><a href="tel:0582712620">0582712620</a></footer>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
