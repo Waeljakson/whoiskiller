@@ -254,3 +254,71 @@ html{font-size:19px}body{font-size:18px;line-height:1.75}
   .scene-hotspot{width:54px;height:54px}
   .scene-hotspot .hit-label{font-size:10px}
 }
+
+/* ==========================================================
+   BUILD 930 — evidence remains hidden until discovered
+   ========================================================== */
+.evidence-empty-state{
+  grid-column:1/-1;
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:1px dashed #34434d;
+  background:linear-gradient(145deg,#0c151b,#081016);
+  padding:25px;
+  color:#8f9ba4;
+  border-radius:6px;
+}
+.evidence-empty-state>span{
+  font-size:46px;
+  opacity:.75;
+  margin-bottom:8px;
+}
+.evidence-empty-state>b{
+  color:#d8dee2;
+  font-size:17px;
+}
+.evidence-empty-state>p{
+  max-width:500px;
+  margin:6px 0 0;
+  color:#93a0a8;
+  font-size:14px;
+  line-height:1.9;
+}
+.discovered-evidence{
+  position:relative;
+}
+.discovered-evidence::after{
+  content:"تم الاكتشاف";
+  position:absolute;
+  left:7px;
+  top:7px;
+  padding:3px 7px;
+  background:#163921e8;
+  border:1px solid #4a8a5d;
+  color:#9bdfad;
+  border-radius:3px;
+  font-size:9px;
+  font-weight:800;
+}
+.evidence-drop{
+  animation:evidenceDrop .62s cubic-bezier(.18,.86,.22,1);
+}
+@keyframes evidenceDrop{
+  0%{opacity:0;transform:translateY(-55px) scale(.72) rotate(-2deg)}
+  65%{opacity:1;transform:translateY(7px) scale(1.035)}
+  100%{transform:none}
+}
+.ev-card img{
+  object-fit:cover!important;
+}
+.ev-card span{
+  min-height:48px;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}

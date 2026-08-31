@@ -1,7 +1,7 @@
 (()=>{
-const BUILD="920";
+const BUILD="930";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)], esc=t=>String(t??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-const S={index:0,points:0,credits:0,rank:"محقق متدرب",solved:0,selected:0,docs:new Set(),evidence:new Set(),questions:new Set(),contradictions:new Set(),wrong:0,inventory:new Map(),storeItems:[],pendingNext:null,profile:{},briefStep:0,toolDiscoveries:new Set()};
+const S={index:0,points:0,credits:0,rank:"محقق متدرب",solved:0,selected:0,docs:new Set(),evidence:new Set(),questions:new Set(),contradictions:new Set(),wrong:0,inventory:new Map(),storeItems:[],pendingNext:null,profile:{},briefStep:0,toolDiscoveries:new Set(),justDiscovered:null};
 
 const AudioFx=(()=>{
  let ctx=null,enabled=localStorage.getItem("whoiskiller_sound")!=="0";
@@ -30,7 +30,7 @@ const RANKS=[
 ];
 const c=()=>CaseEngine.get(S.index);
 
-function resetCaseSession(){S.selected=0;S.docs.clear();S.evidence.clear();S.questions.clear();S.contradictions.clear();S.wrong=0;S.toolDiscoveries.clear();S.pendingNext=null;$("#accusationMsg").textContent="";$("#hintText").textContent="";$("#toolDiscovery").classList.add("hidden");$("#toolDiscovery").innerHTML="";const layer=$("#specialClueLayer");if(layer)layer.innerHTML="";const hotspots=$("#sceneHotspotLayer");if(hotspots)hotspots.innerHTML="";const hit=$("#sceneHitResult");if(hit)hit.remove()}
+function resetCaseSession(){S.selected=0;S.docs.clear();S.evidence.clear();S.questions.clear();S.contradictions.clear();S.wrong=0;S.toolDiscoveries.clear();S.justDiscovered=null;S.pendingNext=null;$("#accusationMsg").textContent="";$("#hintText").textContent="";$("#toolDiscovery").classList.add("hidden");$("#toolDiscovery").innerHTML="";const layer=$("#specialClueLayer");if(layer)layer.innerHTML="";const hotspots=$("#sceneHotspotLayer");if(hotspots)hotspots.innerHTML="";const hit=$("#sceneHitResult");if(hit)hit.remove()}
 function setView(v){$$(".view").forEach(x=>x.classList.add("hidden"));$("#view-"+v)?.classList.remove("hidden");$$("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));if(v==="interrogate")renderInterrogation();if(v==="theory")renderTheory();if(v==="map")renderMap();if(v==="league")renderLeague();if(v==="store")renderStore();window.scrollTo({top:0,behavior:"smooth"})}
 function toast(text,error=false){const el=$("#gameToast");el.textContent=text;el.className="game-toast"+(error?" error":"");setTimeout(()=>el.classList.add("hidden"),3300)}
 function header(){const cc=c();$("#soundToggle").textContent=AudioFx.isEnabled()?"🔊 الأصوات":"🔇 صامت";$("#soundToggle").classList.toggle("muted",!AudioFx.isEnabled());$("#caseTitle").innerHTML=(cc.special?'<span class="special-case-badge">مهمة خاصة</span>':"")+esc(cc.title);$("#caseNo").textContent=`القضية ${cc.index+1} من ${CaseEngine.total}`;$("#locationTop").textContent=`${cc.scope} • ${cc.city} • ${cc.country}`;$("#points").textContent=S.points.toLocaleString("ar-EG");$("#credits").textContent=S.credits.toLocaleString("ar-EG");$("#rank").textContent=S.rank;$("#attempts").textContent=`${S.solved} / ${CaseEngine.total}`;$("#difficulty").textContent=cc.difficulty+"%";$("#storeCredits").textContent=S.credits.toLocaleString("ar-EG")}
@@ -106,7 +106,19 @@ function showSceneEvidenceResult(ev){
 
 function renderScene(){const cc=c();const scenePath=cc.sceneImage||"assets/scenes/hotel_case.png";const img=$("#sceneImg");if(img){img.src=gameAsset(scenePath)||gameAsset("assets/scenes/hotel_case.png");img.dataset.build=BUILD}$("#caseBrief").textContent=cc.brief;$("#victim").textContent=cc.victim;$("#casePlace").textContent=cc.location;$("#caseTime").textContent=cc.time;renderSceneHotspots()}
 function renderSuspects(){const cc=c();const html=cc.suspects.map((s,i)=>`<button class="sus-card ${i===S.selected?"active":""}" data-suspect="${i}"><img src="${gameAsset("assets/portraits/p"+String(s.portrait).padStart(2,"0")+".png")}" alt="${esc(s.name)}"><strong>${esc(s.name)}</strong><span>${esc(s.role)}</span><small>نسبة الاشتباه <b>${s.risk==="مرتفع"?"72":s.risk==="متوسط"?"48":"27"}%</b></small></button>`).join("");$$(".suspect-strip").forEach(x=>x.innerHTML=html)}
-function renderEvidence(){const cc=c();const html=cc.evidence.map(e=>`<button class="ev-card ${S.evidence.has(e.id)?"done":""}" data-evidence="${e.id}"><img src="${gameAsset(e.image)}"><span>${esc(e.name)}</span><small>${e.code}</small></button>`).join("");$$(".evidence-grid").forEach(x=>x.innerHTML=html);$("#evidenceCount").textContent=cc.evidence.length}
+function renderEvidence(){
+ const cc=c();
+ const discovered=cc.evidence.filter(e=>S.evidence.has(e.id));
+ const html=discovered.length
+  ? discovered.map(e=>`<button class="ev-card discovered-evidence ${S.justDiscovered===e.id?"evidence-drop":""}" data-evidence="${e.id}"><img src="${gameAsset(e.image)}" alt="${esc(e.name)}"><span>${esc(e.name)}</span><small>${e.code} • ${esc(e.type||"حرز")}</small></button>`).join("")
+  : `<div class="evidence-empty-state"><span>🔍</span><b>لم تكتشف أي أحراز بعد</b><p>افحص أرقام الأدلة داخل مسرح الجريمة. كل حرز تكتشفه سيظهر هنا تلقائيًا.</p></div>`;
+ $$(".evidence-grid").forEach(x=>x.innerHTML=html);
+ $("#evidenceCount").textContent=`${discovered.length} / ${cc.evidence.length}`;
+ if(S.justDiscovered){
+  const remembered=S.justDiscovered;
+  setTimeout(()=>{if(S.justDiscovered===remembered)S.justDiscovered=null},700);
+ }
+}
 function renderDocs(){const cc=c();$("#docList").innerHTML=cc.documents.map((d,i)=>`<button class="${S.docs.has(i)?"read":""}" data-doc="${i}"><strong>${esc(d.title)}</strong><span>${esc(d.type)}</span></button>`).join("")}
 function openDoc(i){
  const d=c().documents[i];S.docs.add(i);AudioFx.paper();
@@ -115,7 +127,15 @@ function openDoc(i){
  $("#animatedPaper").classList.remove("page-turn");void $("#animatedPaper").offsetWidth;$("#animatedPaper").classList.add("page-turn");
  $("#documentOverlay").classList.remove("hidden");renderDocs();updatePhase()
 }
-function analyze(id){AudioFx.evidence();const e=c().evidence.find(x=>x.id===id);S.evidence.add(id);$$(".lab").forEach(x=>x.innerHTML=`<strong>${esc(e.name)}</strong><p>${esc(e.result)}</p>`);renderEvidence();renderSceneHotspots();updatePhase()}
+function analyze(id){
+ const e=c().evidence.find(x=>x.id===id);if(!e)return;
+ const firstTime=!S.evidence.has(id);
+ AudioFx.evidence();
+ S.evidence.add(id);
+ if(firstTime)S.justDiscovered=id;
+ $$(".lab").forEach(x=>x.innerHTML=`<strong>${esc(e.name)}</strong><p>${esc(e.result)}</p>`);
+ renderEvidence();renderSceneHotspots();updatePhase();
+}
 function renderInterrogation(){const s=c().suspects[S.selected];$("#interrogatePerson").innerHTML=`<img src="${gameAsset("assets/portraits/p"+String(s.portrait).padStart(2,"0")+".png")}"><h3>${esc(s.name)}</h3><p>${esc(s.role)}</p><small>${esc(s.alibi)}</small>`;$("#questionButtons").innerHTML=qbank.map(q=>`<button data-q="${q[0]}">${q[1]}</button>`).join("");$("#contradiction").textContent=S.contradictions.has(s.id)?"تم اكتشاف تناقض: توقيته لا يطابق السجل المصحح.":"لم يتم اكتشاف تناقض مؤكد بعد."}
 function ask(id,text){const s=c().suspects[S.selected];S.questions.add(`${s.id}-${id}`);if((id==="timeline"||id==="evidence")&&s.risk==="مرتفع")S.contradictions.add(s.id);$("#chat").insertAdjacentHTML("beforeend",`<div class="me">${esc(text)}</div><div class="them"><b>${esc(s.name)}</b>${esc(s.answers[id])}</div>`);$("#chat").scrollTop=$("#chat").scrollHeight;renderInterrogation()}
 
@@ -199,8 +219,8 @@ async function useTool(id){AudioFx.click();
  if(it.effect_code==="analyze_timeline"){
   const high=c().suspects.find(s=>s.risk==="مرتفع");if(high)S.contradictions.add(high.id);
  }
- if(it.effect_code==="digital_decoder"){
-  const hidden=c().evidence.find(e=>!S.evidence.has(e.id));if(hidden)S.evidence.add(hidden.id);
+ if(it.effect_code==="decode_digital"){
+  const hidden=c().evidence.find(e=>!S.evidence.has(e.id));if(hidden){S.evidence.add(hidden.id);S.justDiscovered=hidden.id;}
  }
  $("#toolDiscovery").innerHTML=`<b>${it.icon} ${esc(it.name_ar)}</b><div>${esc(text)}</div>`;$("#toolDiscovery").classList.remove("hidden");
  renderToolbelt();renderEvidence();renderInterrogation();renderStore();toast("تم استخدام الأداة وإضافة النتيجة إلى ملاحظات التحقيق.")
@@ -274,7 +294,7 @@ document.addEventListener("click",e=>{
  const sev=e.target.closest("[data-scene-evidence]");
  if(sev){
   const id=sev.dataset.sceneEvidence,evd=c().evidence.find(x=>x.id===id);
-  if(evd){analyze(id);showSceneEvidenceResult(evd);renderSceneHotspots();toast(`تم فحص ${evd.name} وإضافته إلى ملف الأدلة.`)}
+  if(evd){analyze(id);showSceneEvidenceResult(evd);renderSceneHotspots();toast(`تم اكتشاف ${evd.name} ونقله إلى ملف الأدلة.`)}
   return;
  }
  const ev=e.target.closest("[data-evidence]");if(ev)return analyze(ev.dataset.evidence);
