@@ -1,5 +1,5 @@
 (()=>{
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)], esc=t=>String(t??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const BUILD="700"; const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)], esc=t=>String(t??"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 const S={index:0,points:0,solved:0,selected:0,docs:new Set(),evidence:new Set(),questions:new Set(),contradictions:new Set(),wrong:0};
 const qbank=[["where","أين كنت وقت الجريمة؟"],["relation","ما علاقتك بالضحية؟"],["motive","هل لديك دافع لقتلها؟"],["evidence","ما تفسيرك لهذا الدليل؟"],["timeline","اشرح توقيت تحركاتك"],["contact","متى كان آخر تواصل؟"]];
 const c=()=>CaseEngine.get(S.index);
@@ -7,7 +7,15 @@ function rank(p){if(p>100000)return"أسطورة التحقيق";if(p>50000)retu
 function reset(){S.selected=0;S.docs.clear();S.evidence.clear();S.questions.clear();S.contradictions.clear();S.wrong=0;$("#accusationMsg").textContent="";$("#hintText").textContent=""}
 function setView(v){$$(".view").forEach(x=>x.classList.add("hidden"));$("#view-"+v)?.classList.remove("hidden");$$("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));if(v==="interrogate")renderInterrogation();if(v==="theory")renderTheory();if(v==="map")renderMap();if(v==="league")renderLeague();window.scrollTo({top:0,behavior:"smooth"})}
 function header(){const cc=c();$("#caseTitle").textContent=cc.title;$("#caseNo").textContent=`القضية ${cc.index+1} من ${CaseEngine.total}`;$("#locationTop").textContent=`${cc.city} • ${cc.country}`;$("#points").textContent=S.points.toLocaleString("ar-EG");$("#rank").textContent=rank(S.points);$("#attempts").textContent=`${S.solved} / ${CaseEngine.total}`;$("#difficulty").textContent=cc.difficulty+"%"}
-function renderScene(){const cc=c();$("#sceneImg").src=gameAsset(cc.sceneImage);$("#caseBrief").textContent=cc.brief;$("#victim").textContent=cc.victim;$("#casePlace").textContent=cc.location;$("#caseTime").textContent=cc.time}
+function renderScene(){const cc=c();{
+  const scenePath=cc.sceneImage || "assets/scenes/hotel_case.png";
+  const src=gameAsset(scenePath) || gameAsset("assets/scenes/hotel_case.png");
+  const img=$("#sceneImg");
+  if(img){
+    img.src=src;
+    img.dataset.build=BUILD;
+  }
+}$("#caseBrief").textContent=cc.brief;$("#victim").textContent=cc.victim;$("#casePlace").textContent=cc.location;$("#caseTime").textContent=cc.time}
 function renderSuspects(){const cc=c();const html=cc.suspects.map((s,i)=>`<button class="sus-card ${i===S.selected?"active":""}" data-suspect="${i}"><img src="${gameAsset("assets/portraits/p"+String(s.portrait).padStart(2,"0")+".png")}" alt="${esc(s.name)}"><strong>${esc(s.name)}</strong><span>${esc(s.role)}</span><small>نسبة الاشتباه <b>${s.risk==="مرتفع"?"72":s.risk==="متوسط"?"48":"27"}%</b></small></button>`).join("");setAll(".suspect-strip",html)}
 function setAll(sel,html){$$(sel).forEach(x=>x.innerHTML=html)}
 function renderEvidence(){const cc=c();const html=cc.evidence.map(e=>`<button class="ev-card ${S.evidence.has(e.id)?"done":""}" data-evidence="${e.id}"><img src="${gameAsset(e.image)}"><span>${esc(e.name)}</span><small>${e.code}</small></button>`).join("");setAll(".evidence-grid",html);$("#evidenceCount").textContent=cc.evidence.length}
@@ -29,4 +37,13 @@ $("#questionForm").onsubmit=e=>{e.preventDefault();const t=$("#questionInput").v
 $("#accuseBtn").onclick=accuse;$("#nextBtn").onclick=next;document.getElementById("nextBtnModal").onclick=next;$("#reviewBtn").onclick=()=>$("#modal").classList.add("hidden");$("#hintBtn").onclick=()=>{$("#hintText").textContent="قارن توقيت الكاميرا بسجل الدخول، ثم اسأل المشتبه الأعلى خطورة عن الدليل والتوقيت."};
 window.addEventListener("player-ready",e=>{const p=e.detail.profile||{};S.points=Number(p.points)||0;S.solved=Number(p.cases_solved)||0;S.index=Math.min(CaseEngine.total-1,Number(p.current_case)||0);if(S.index<S.solved&&S.solved<CaseEngine.total)S.index=S.solved;reset();renderAll()});
 renderAll();
+
+document.addEventListener("error",e=>{
+  const img=e.target;
+  if(img && img.tagName==="IMG" && img.id==="sceneImg"){
+    const fallback=gameAsset("assets/scenes/hotel_case.png");
+    if(fallback && img.src!==fallback) img.src=fallback;
+  }
+},true);
+
 })();
