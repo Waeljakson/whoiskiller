@@ -104,6 +104,7 @@
       .eq('id', currentUser.id);
 
     if (error) console.error('savePlayerState', error);
+    else if (currentProfile) currentProfile = { ...currentProfile, points: Math.max(0, Number(points) || 0), rank: rank || 'محقق متدرب', current_case: Math.max(0, Number(currentCase) || 0), cases_solved: Math.max(0, Number(casesSolved) || 0) };
   }
 
   async function saveCaseProgress(caseIndex, solved, earnedPoints) {
