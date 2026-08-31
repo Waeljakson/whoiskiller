@@ -1,272 +1,84 @@
 (() => {
-  const config = window.SUPABASE_CONFIG || {};
-  const configured = config.url && config.publishableKey && !config.url.includes('YOUR_') && !config.publishableKey.includes('YOUR_');
-  const authGate = document.getElementById('authGate');
-  const appShell = document.querySelector('.app-shell');
-  const authStatus = document.getElementById('authStatus');
-  const loginForm = document.getElementById('loginForm');
-  const signupForm = document.getElementById('signupForm');
-  const loginTab = document.getElementById('showLogin');
-  const signupTab = document.getElementById('showSignup');
-  const logoutBtn = document.getElementById('logoutBtn');
-  const headerPlayerName = document.getElementById('headerPlayerName');
+  "use strict";
+  const cfg=window.SUPABASE_CONFIG;
+  const gate=document.getElementById("authGate");
+  const app=document.querySelector(".app-shell");
+  const statusBox=document.getElementById("authStatus");
+  let client=null, profile=null;
 
-  let client = null;
-  let currentUser = null;
-  let currentProfile = null;
-
-  function status(message, isError = false) {
-    authStatus.textContent = message || '';
-    authStatus.classList.toggle('error', isError);
+  function status(msg,error=false){statusBox.textContent=msg||"";statusBox.classList.toggle("error",!!error)}
+  function showForm(which){
+    const login=which==="login";
+    document.getElementById("loginForm").classList.toggle("hidden",!login);
+    document.getElementById("signupForm").classList.toggle("hidden",login);
+    document.getElementById("showLogin").classList.toggle("active",login);
+    document.getElementById("showSignup").classList.toggle("active",!login);
+    status("");
+  }
+  async function loadProfile(user){
+    const {data}=await client.from("player_profiles").select("*").eq("id",user.id).maybeSingle();
+    profile=data||null;
+    return profile;
+  }
+  async function enter(session){
+    if(!session?.user)return;
+    await loadProfile(session.user);
+    gate.classList.add("hidden"); app.classList.remove("game-locked");
+    document.getElementById("logoutBtn").classList.remove("hidden");
+    document.getElementById("headerPlayerName").textContent=profile?.username||session.user.email?.split("@")[0]||"محقق";
+    window.dispatchEvent(new CustomEvent("player-ready",{detail:{profile:profile||{},user:session.user}}));
+  }
+  async function savePlayerState(v){
+    if(!client)return;
+    const {data:{user}}=await client.auth.getUser(); if(!user)return;
+    const payload={id:user.id,points:Math.max(0,Number(v.points)||0),rank:v.rank||"محقق متدرب",current_case:Math.max(0,Number(v.currentCase)||0),cases_solved:Math.max(0,Number(v.casesSolved)||0),updated_at:new Date().toISOString()};
+    await client.from("player_profiles").update(payload).eq("id",user.id);
+    profile={...(profile||{}),...payload};
+  }
+  async function saveCaseProgress(caseIndex,solved,earnedPoints){
+    if(!client)return;
+    const {data:{user}}=await client.auth.getUser(); if(!user)return;
+    await client.from("game_progress").upsert({user_id:user.id,case_index:Number(caseIndex),solved:!!solved,earned_points:Number(earnedPoints)||0,solved_at:solved?new Date().toISOString():null,updated_at:new Date().toISOString()},{onConflict:"user_id,case_index"});
+  }
+  async function leaderboard(limit=20){
+    if(!client)return[];
+    const {data}=await client.from("player_profiles").select("username,country,points,rank,cases_solved").order("points",{ascending:false}).limit(limit);
+    return data||[];
   }
 
-  function switchForm(mode) {
-    const login = mode === 'login';
-    loginForm.classList.toggle('hidden', !login);
-    signupForm.classList.toggle('hidden', login);
-    loginTab.classList.toggle('active', login);
-    signupTab.classList.toggle('active', !login);
-    loginTab.setAttribute('aria-selected', String(login));
-    signupTab.setAttribute('aria-selected', String(!login));
-    status('');
-  }
+  window.gameAuth={savePlayerState,saveCaseProgress,loadLeaderboard:leaderboard};
 
-  async function ensureProfile(user) {
-    const { data, error } = await client
-      .from('player_profiles')
-      .select('*')
-      .eq('id', user.id)
-      .maybeSingle();
+  if(!window.supabase||!cfg){status("تعذر تحميل خدمة تسجيل الدخول.",true);return}
+  client=window.supabase.createClient(cfg.url,cfg.publishableKey);
 
-    if (error) throw error;
-    if (data) return data;
+  document.getElementById("showLogin").addEventListener("click",()=>showForm("login"));
+  document.getElementById("showSignup").addEventListener("click",()=>showForm("signup"));
+  document.querySelectorAll("[data-password-target]").forEach(btn=>btn.addEventListener("click",()=>{
+    const input=document.getElementById(btn.dataset.passwordTarget); if(!input)return;
+    input.type=input.type==="password"?"text":"password"; btn.textContent=input.type==="password"?"عرض":"إخفاء";
+  }));
 
-    const meta = user.user_metadata || {};
-    const fallbackUsername = `detective_${user.id.replaceAll('-', '').slice(0, 8)}`;
-    const payload = {
-      id: user.id,
-      display_name: meta.display_name || 'محقق جديد',
-      username: meta.username || fallbackUsername,
-      country: meta.country || 'غير محدد'
-    };
-
-    const { data: created, error: insertError } = await client
-      .from('player_profiles')
-      .insert(payload)
-      .select('*')
-      .single();
-
-    if (insertError) throw insertError;
-    return created;
-  }
-
-  async function enterGame(session) {
-    if (!session?.user) {
-      currentUser = null;
-      currentProfile = null;
-      appShell.classList.add('game-locked');
-      authGate.classList.remove('hidden');
-      logoutBtn.classList.add('hidden');
-      headerPlayerName.textContent = 'زائر';
-      return;
-    }
-
-    try {
-      currentUser = session.user;
-      currentProfile = await ensureProfile(session.user);
-      headerPlayerName.textContent = currentProfile.username;
-      logoutBtn.classList.remove('hidden');
-      authGate.classList.add('hidden');
-      appShell.classList.remove('game-locked');
-
-      window.dispatchEvent(new CustomEvent('player-ready', {
-        detail: { user: currentUser, profile: currentProfile }
-      }));
-    } catch (error) {
-      console.error(error);
-      status('تعذر تحميل ملف اللاعب: ' + (error.message || 'خطأ غير معروف'), true);
-      authGate.classList.remove('hidden');
-      appShell.classList.add('game-locked');
-    }
-  }
-
-  async function savePlayerState({ points, rank, currentCase, casesSolved }) {
-    if (!client || !currentUser) return;
-    const { error } = await client
-      .from('player_profiles')
-      .update({
-        points: Math.max(0, Number(points) || 0),
-        rank: rank || 'محقق مبتدئ',
-        current_case: Math.max(0, Number(currentCase) || 0),
-        cases_solved: Math.max(0, Number(casesSolved) || 0),
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', currentUser.id);
-
-    if (error) console.error('savePlayerState', error);
-    else if (currentProfile) currentProfile = { ...currentProfile, points: Math.max(0, Number(points) || 0), rank: rank || 'محقق متدرب', current_case: Math.max(0, Number(currentCase) || 0), cases_solved: Math.max(0, Number(casesSolved) || 0) };
-  }
-
-  async function saveCaseProgress(caseIndex, solved, earnedPoints) {
-    if (!client || !currentUser) return;
-    const payload = {
-      user_id: currentUser.id,
-      case_index: Math.max(0, Number(caseIndex) || 0),
-      solved: Boolean(solved),
-      earned_points: Math.max(0, Number(earnedPoints) || 0),
-      solved_at: solved ? new Date().toISOString() : null,
-      updated_at: new Date().toISOString()
-    };
-    const { error } = await client
-      .from('game_progress')
-      .upsert(payload, { onConflict: 'user_id,case_index' });
-    if (error) console.error('saveCaseProgress', error);
-  }
-
-  async function loadLeaderboard(limit = 10) {
-    if (!client || !currentUser) return [];
-    const { data, error } = await client
-      .from('player_profiles')
-      .select('username,country,points,rank')
-      .order('points', { ascending: false })
-      .limit(limit);
-    if (error) {
-      console.error('loadLeaderboard', error);
-      return [];
-    }
-    return data || [];
-  }
-
-  window.gameAuth = {
-    get user() { return currentUser; },
-    get profile() { return currentProfile; },
-    savePlayerState,
-    saveCaseProgress,
-    loadLeaderboard
-  };
-
-  document.querySelectorAll('[data-password-target]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const input = document.getElementById(button.dataset.passwordTarget);
-      if (!input) return;
-      const reveal = input.type === 'password';
-      input.type = reveal ? 'text' : 'password';
-      button.textContent = reveal ? 'إخفاء' : 'عرض';
-      button.setAttribute('aria-pressed', String(reveal));
-    });
+  document.getElementById("loginForm").addEventListener("submit",async e=>{
+    e.preventDefault(); const f=new FormData(e.currentTarget); status("جارٍ تسجيل الدخول...");
+    const {data,error}=await client.auth.signInWithPassword({email:String(f.get("email")||"").trim(),password:String(f.get("password")||"")});
+    if(error)return status("بيانات الدخول غير صحيحة.",true); status(""); await enter(data.session);
   });
 
-  loginTab.addEventListener('click', () => switchForm('login'));
-  signupTab.addEventListener('click', () => switchForm('signup'));
-
-  if (!configured || !window.supabase?.createClient) {
-    appShell.classList.add('game-locked');
-    authGate.classList.remove('hidden');
-    status('قاعدة البيانات لم يتم ربطها بالموقع بعد. سيتم تفعيل التسجيل بعد إنشاء مشروع Supabase الخاص باللعبة.', true);
-    [...loginForm.elements, ...signupForm.elements].forEach(el => el.disabled = true);
-    return;
-  }
-
-  client = window.supabase.createClient(config.url, config.publishableKey);
-
-  loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    status('جارٍ تسجيل الدخول...');
-    const submit = loginForm.querySelector('button[type="submit"]');
-    submit.disabled = true;
-    const form = new FormData(loginForm);
-    const email = String(form.get('email') || '').trim();
-    const password = String(form.get('password') || '');
-
-    const { data, error } = await client.auth.signInWithPassword({ email, password });
-    if (error) {
-      submit.disabled = false;
-      status('تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.', true);
-      return;
-    }
-    status('');
-    await enterGame(data.session);
-    submit.disabled = false;
+  document.getElementById("signupForm").addEventListener("submit",async e=>{
+    e.preventDefault(); const f=new FormData(e.currentTarget);
+    const body={displayName:String(f.get("displayName")||"").trim(),username:String(f.get("username")||"").trim(),country:String(f.get("country")||"").trim(),email:String(f.get("email")||"").trim().toLowerCase(),password:String(f.get("password")||"")};
+    if(body.username.length<3||body.password.length<8)return status("اسم المحقق 3 أحرف على الأقل وكلمة المرور 8 أحرف على الأقل.",true);
+    status("جارٍ إنشاء الحساب...");
+    try{
+      const res=await fetch(`${cfg.url}/functions/v1/signup-player`,{method:"POST",headers:{"Content-Type":"application/json","apikey":cfg.publishableKey},body:JSON.stringify(body)});
+      const out=await res.json().catch(()=>({}));
+      if(!res.ok)return status(out.message||"تعذر إنشاء الحساب.",true);
+      const {data,error}=await client.auth.signInWithPassword({email:body.email,password:body.password});
+      if(error)return status("تم إنشاء الحساب. انتقل لتسجيل الدخول.",false);
+      status(""); await enter(data.session);
+    }catch{status("تعذر الاتصال بخدمة إنشاء الحساب.",true)}
   });
 
-  signupForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    status('جارٍ إنشاء حساب المحقق...');
-
-    const submit = signupForm.querySelector('button[type="submit"]');
-    submit.disabled = true;
-
-    const form = new FormData(signupForm);
-    const displayName = String(form.get('displayName') || '').trim();
-    const username = String(form.get('username') || '').trim();
-    const country = String(form.get('country') || '').trim();
-    const email = String(form.get('email') || '').trim().toLowerCase();
-    const password = String(form.get('password') || '');
-
-    if (displayName.length < 2) {
-      submit.disabled = false;
-      return status('أدخل الاسم بشكل صحيح.', true);
-    }
-    if (!/^[A-Za-z0-9_\-]{3,24}$/.test(username)) {
-      submit.disabled = false;
-      return status('اسم المحقق يجب أن يكون 3-24 حرفاً إنجليزياً/رقماً ويمكن استخدام _ أو -.', true);
-    }
-    if (country.length < 2) {
-      submit.disabled = false;
-      return status('أدخل الدولة.', true);
-    }
-    if (password.length < 8) {
-      submit.disabled = false;
-      return status('كلمة المرور يجب ألا تقل عن 8 أحرف.', true);
-    }
-
-    try {
-      const response = await fetch(`${config.url}/functions/v1/signup-player`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': config.publishableKey
-        },
-        body: JSON.stringify({ email, password, displayName, username, country })
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        submit.disabled = false;
-        return status(result.message || 'تعذر إنشاء الحساب حالياً.', true);
-      }
-
-      status('تم إنشاء الحساب. جارٍ تسجيل الدخول...');
-
-      const { data, error } = await client.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error || !data.session) {
-        submit.disabled = false;
-        switchForm('login');
-        return status('تم إنشاء الحساب بنجاح. استخدم البريد وكلمة المرور لتسجيل الدخول.', false);
-      }
-
-      status('');
-      await enterGame(data.session);
-      submit.disabled = false;
-    } catch (error) {
-      submit.disabled = false;
-      status('تعذر الاتصال بخدمة إنشاء الحساب. حاول مرة أخرى.', true);
-    }
-  });
-
-  logoutBtn.addEventListener('click', async () => {
-    await client.auth.signOut();
-    await enterGame(null);
-  });
-
-  client.auth.onAuthStateChange((_event, session) => {
-    enterGame(session);
-  });
-
-  client.auth.getSession().then(({ data }) => enterGame(data.session));
+  document.getElementById("logoutBtn").addEventListener("click",async()=>{await client.auth.signOut();location.reload()});
+  client.auth.getSession().then(({data})=>{if(data.session)enter(data.session)});
 })();

@@ -1,219 +1,137 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0d10"><title>من القاتل؟ | مركز التحقيق الجنائي</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css?v=20260831-v2"></head><body>
-  <section id="authGate" class="auth-gate">
-    <div class="auth-atmosphere" aria-hidden="true">
-      <span class="glow glow-a"></span>
-      <span class="glow glow-b"></span>
-      <span class="grid-noise"></span>
-    </div>
-
-    <div class="login-shell">
-      <section class="auth-visual" aria-label="مقدمة لعبة من القاتل">
-        <div class="visual-top">
-          <div class="hero-brand">
-            <div class="hero-logo"><span>؟</span></div>
-            <div>
-              <span class="hero-overline">WHO IS THE KILLER?</span>
-              <strong>من القاتل؟</strong>
-            </div>
-          </div>
-          <span class="classified-badge"><i></i> ملف سري</span>
-        </div>
-
-        <div class="hero-copy">
-          <span class="case-number">CASE FILE // 001</span>
-          <h1>الحقيقة لا تختفي.<br><em>هي فقط تنتظر محققًا أذكى.</em></h1>
-          <p>
-            حلّل مسرح الجريمة، اربط الأدلة، استجوب المشتبهين، واتخذ قرارك قبل أن يفلت القاتل.
-            كل قضية أصعب من السابقة، وكل خطأ له ثمن.
-          </p>
-        </div>
-
-        <div class="crime-desk" aria-hidden="true">
-          <div class="desk-grid"></div>
-          <div class="red-thread thread-one"></div>
-          <div class="red-thread thread-two"></div>
-          <div class="evidence-note note-main">
-            <span class="note-code">EVIDENCE / 07</span>
-            <b>آخر ظهور</b>
-            <strong>22:14</strong>
-            <small>الكاميرا الشرقية</small>
-          </div>
-          <div class="evidence-note note-photo">
-            <span class="note-code">CAM / 03</span>
-            <div class="fake-photo">
-              <i></i><i></i><i></i>
-            </div>
-            <small>لقطة غير مكتملة</small>
-          </div>
-          <div class="evidence-note note-dark">
-            <span class="note-code">FORENSIC</span>
-            <b>بصمة جزئية</b>
-            <small>مطابقة: 72%</small>
-          </div>
-          <div class="evidence-seal">CONFIDENTIAL</div>
-          <div class="desk-label">
-            <span>ACTIVE INVESTIGATION</span>
-            <b>لا تثق في أول استنتاج</b>
-          </div>
-        </div>
-
-        <div class="hero-stats">
-          <div><strong>03</strong><span>قضايا أولية</span></div>
-          <div><strong>04</strong><span>رتب للمحقق</span></div>
-          <div><strong>∞</strong><span>احتمالات التحقيق</span></div>
-        </div>
-      </section>
-
-      <section class="auth-side">
-        <div class="mobile-brand">
-          <div class="hero-logo small"><span>؟</span></div>
-          <div><span>WHO IS THE KILLER?</span><strong>من القاتل؟</strong></div>
-        </div>
-
-        <div class="auth-card">
-          <div class="auth-card-head">
-            <span class="access-label"><i></i> SECURE DETECTIVE ACCESS</span>
-            <h2>دخول غرفة التحقيق</h2>
-            <p>سجّل دخولك لاستكمال القضايا وحفظ نقاطك وترتيبك عالميًا.</p>
-          </div>
-
-          <div class="auth-tabs" role="tablist" aria-label="نوع الدخول">
-            <button id="showLogin" type="button" class="auth-tab active" role="tab" aria-selected="true">تسجيل الدخول</button>
-            <button id="showSignup" type="button" class="auth-tab" role="tab" aria-selected="false">إنشاء حساب</button>
-          </div>
-
-          <form id="loginForm" class="auth-form">
-            <label class="field">
-              <span>البريد الإلكتروني</span>
-              <div class="input-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg>
-                <input name="email" type="email" autocomplete="email" required placeholder="name@example.com">
-              </div>
-            </label>
-
-            <label class="field">
-              <span>كلمة المرور</span>
-              <div class="input-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                <input id="loginPassword" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="••••••••">
-                <button class="password-toggle" type="button" data-password-target="loginPassword" aria-label="إظهار أو إخفاء كلمة المرور">عرض</button>
-              </div>
-            </label>
-
-            <button type="submit" class="auth-submit">
-              <span>دخول إلى غرفة التحقيق</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-
-            <div class="auth-divider"><span>ملفك الشخصي محفوظ ومشفّر</span></div>
-          </form>
-
-          <form id="signupForm" class="auth-form hidden">
-            <div class="form-two">
-              <label class="field">
-                <span>الاسم الكامل</span>
-                <div class="input-wrap">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6"/></svg>
-                  <input name="displayName" type="text" minlength="2" maxlength="80" required placeholder="محمد أحمد">
-                </div>
-              </label>
-
-              <label class="field">
-                <span>اسم المحقق</span>
-                <div class="input-wrap">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M7 16l3-8 2 5 2-9 3 12"/></svg>
-                  <input name="username" type="text" minlength="3" maxlength="24" required placeholder="Detective_01" dir="ltr">
-                </div>
-              </label>
-            </div>
-
-            <label class="field">
-              <span>الدولة</span>
-              <div class="input-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
-                <input name="country" type="text" minlength="2" maxlength="60" required placeholder="السعودية">
-              </div>
-            </label>
-
-            <label class="field">
-              <span>البريد الإلكتروني</span>
-              <div class="input-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg>
-                <input name="email" type="email" autocomplete="email" required placeholder="name@example.com">
-              </div>
-            </label>
-
-            <label class="field">
-              <span>كلمة المرور</span>
-              <div class="input-wrap">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                <input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="8 أحرف على الأقل">
-                <button class="password-toggle" type="button" data-password-target="signupPassword" aria-label="إظهار أو إخفاء كلمة المرور">عرض</button>
-              </div>
-            </label>
-
-            <button type="submit" class="auth-submit">
-              <span>إنشاء ملف المحقق</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-          </form>
-
-          <div id="authStatus" class="auth-status" aria-live="polite"></div>
-
-          <div class="security-row">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
-            <span>حسابك وتقدمك محفوظان بأمان عبر Supabase Auth.</span>
-          </div>
-        </div>
-
-        <div class="auth-rights">
-          <span>جميع الحقوق محفوظة © 2026</span>
-          <strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong>
-          <a href="tel:0582712620">0582712620</a>
-        </div>
-      </section>
-    </div>
-  </section>
-  <div class="app-shell game-locked">
-    <header class="topbar ops-topbar">
-      <div class="brand-wrap"><div class="brand-mark">؟</div><div><span class="eyebrow">WHO IS THE KILLER? // INVESTIGATION COMMAND</span><h1>من القاتل؟</h1></div></div>
-      <div class="player-actions">
-        <div class="player-name-box"><span>المحقق</span><strong id="headerPlayerName">زائر</strong></div>
-        <div class="player-mini"><div class="mini-stat"><strong id="points">0</strong><span>نقطة</span></div><div class="mini-stat wide"><strong id="rank">محقق متدرب</strong><span>الرتبة</span></div><div class="mini-stat"><strong id="solvedCount">0/6</strong><span>قضايا</span></div></div>
-        <button id="logoutBtn" type="button" class="logout-btn hidden">تسجيل الخروج</button>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080c10">
+<title>من القاتل؟ | Who Is Killer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=520">
+</head>
+<body>
+<section id="authGate" class="auth-gate">
+  <div class="auth-grid">
+    <section class="auth-art">
+      <div class="auth-brand"><div>؟</div><span><b>من القاتل؟</b><small>WHO IS THE KILLER?</small></span></div>
+      <div class="auth-copy"><span>CRIMINAL INVESTIGATION NETWORK</span><h1>كل دليل له معنى.<br><em>وكل كذبة تترك أثرًا.</em></h1><p>ادخل غرفة التحقيق، حل القضايا، اجمع النقاط، وترقَّ من محقق متدرب إلى أسطورة التحقيق.</p></div>
+      <img src="assets/scenes/hotel.svg" alt="مسرح جريمة بأسلوب لعبة تحقيق">
+      <div class="auth-stats"><div><b>520+</b><span>قضية</span></div><div><b>5</b><span>مواسم</span></div><div><b>عالمي</b><span>دوري المحققين</span></div></div>
+    </section>
+    <section class="auth-panel">
+      <div class="auth-card">
+        <span class="secure">SECURE DETECTIVE ACCESS</span><h2>دخول غرفة التحقيق</h2><p>سجل الدخول لاستكمال القضايا وحفظ ترتيبك.</p>
+        <div class="auth-tabs"><button id="showLogin" class="active" type="button">تسجيل الدخول</button><button id="showSignup" type="button">إنشاء حساب</button></div>
+        <form id="loginForm">
+          <label>البريد الإلكتروني<input name="email" type="email" required placeholder="name@example.com"></label>
+          <label>كلمة المرور<div class="pass"><input id="loginPassword" name="password" type="password" minlength="8" required placeholder="••••••••"><button type="button" data-password-target="loginPassword">عرض</button></div></label>
+          <button class="auth-submit" type="submit">دخول إلى غرفة التحقيق</button>
+        </form>
+        <form id="signupForm" class="hidden">
+          <div class="two"><label>الاسم الكامل<input name="displayName" required></label><label>اسم المحقق<input name="username" required dir="ltr"></label></div>
+          <label>الدولة<input name="country" required></label>
+          <label>البريد الإلكتروني<input name="email" type="email" required></label>
+          <label>كلمة المرور<div class="pass"><input id="signupPassword" name="password" type="password" minlength="8" required><button type="button" data-password-target="signupPassword">عرض</button></div></label>
+          <button class="auth-submit" type="submit">إنشاء ملف المحقق</button>
+        </form>
+        <div id="authStatus"></div>
       </div>
-    </header>
-    <main class="ops-layout">
-      <aside class="ops-sidebar panel">
-        <div class="sidebar-title">مركز العمليات الجنائية</div>
-        <button class="ops-nav active" data-view="dashboard"><span>01</span><b>ملف القضية</b></button>
-        <button class="ops-nav" data-view="scene"><span>02</span><b>مسرح الجريمة</b></button>
-        <button class="ops-nav" data-view="documents"><span>03</span><b>المحاضر والأقوال</b></button>
-        <button class="ops-nav" data-view="evidence"><span>04</span><b>الأحراز والمعمل</b></button>
-        <button class="ops-nav" data-view="suspects"><span>05</span><b>المشتبهون</b></button>
-        <button class="ops-nav" data-view="interrogation"><span>06</span><b>الاستجواب</b></button>
-        <button class="ops-nav" data-view="theory"><span>07</span><b>بناء الاتهام</b></button>
-        <button class="ops-nav" data-view="league"><span>08</span><b>الدوري والقضايا</b></button>
-        <div class="sidebar-separator"></div>
-        <div class="case-progress-box ops-progress-box"><div><span>اكتمال التحقيق</span><strong id="progressLabel">0%</strong></div><div class="progress-bar"><i id="progressMeter" style="width:0%"></i></div></div>
-        <div id="caseMiniStatus" class="sidebar-note">اقرأ المحاضر، حلّل الأحراز، ثم استجوب المشتبهين قبل توجيه الاتهام.</div>
-      </aside>
-      <section class="ops-workspace">
-        <section id="view-dashboard" class="game-view">
-          <div class="ops-case-hero panel"><div class="ops-case-main"><div class="badge-row"><span id="caseScope" class="badge yellow-badge">محلي</span><span id="caseNumber" class="badge">CASE 01</span><span id="caseCategory" class="badge">جريمة غامضة</span></div><h2 id="caseTitle"></h2><p id="caseMeta"></p><p id="caseBrief" class="case-brief"></p><div class="hero-actions"><button type="button" class="primary-btn compact" data-go="scene">معاينة مسرح الجريمة</button><button type="button" class="ghost-btn" data-go="documents">فتح المحضر</button></div></div><div class="case-score-panel"><div class="difficulty-orb"><strong id="caseDifficulty"></strong><span>صعوبة</span></div><div><span>مكافأة الإغلاق</span><strong id="caseReward"></strong></div><div><span>الحالة</span><strong id="caseStatus"></strong></div></div></div>
-          <div class="dashboard-grid"><article class="panel info-panel"><span class="section-kicker">INCIDENT SUMMARY</span><h3>بيانات البلاغ</h3><dl class="case-facts"><div><dt>المجني عليه</dt><dd id="factVictim"></dd></div><div><dt>الموقع</dt><dd id="factLocation"></dd></div><div><dt>الوقت المرجح</dt><dd id="factTime"></dd></div><div><dt>هدف التحقيق</dt><dd id="factObjective"></dd></div></dl></article><article class="panel info-panel"><span class="section-kicker">INVESTIGATION TIMELINE</span><h3>الخط الزمني الأولي</h3><div id="timeline" class="timeline"></div></article></div>
-          <article class="panel case-roadmap-panel"><div class="section-head-inline"><div><span class="section-kicker">CASE ROADMAP</span><h3>مراحل إغلاق القضية</h3></div><span id="roadmapHint" class="micro-copy"></span></div><div id="roadmap" class="roadmap"></div></article>
-        </section>
-        <section id="view-scene" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">CRIME SCENE // 3D BOARD</span><h2>معاينة مسرح الجريمة</h2><p id="sceneIntro"></p></div><button type="button" class="ghost-btn" data-go="documents">بعد المعاينة: اقرأ المحضر</button></div><div class="scene-layout"><div class="crime-scene-3d panel"><div class="scene-back-wall"></div><div class="scene-floor"></div><div class="scene-window"></div><div class="scene-door"></div><div class="scene-table"></div><div class="scene-chair"></div><div id="sceneVictimMarker" class="scene-marker"></div><div id="sceneHotspots" class="scene-hotspots"></div><div class="scene-scanline"></div></div><aside class="panel scene-inspector"><span class="section-kicker">SCENE INSPECTOR</span><h3 id="sceneFindingTitle">اختر نقطة للفحص</h3><p id="sceneFindingText">اضغط على العلامات الصفراء داخل المشهد لفحصها وتسجيل الملاحظات.</p><div id="sceneFindingTag" class="finding-tag">لم يتم الفحص</div></aside></div></section>
-        <section id="view-documents" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">CASE DOCUMENTS</span><h2>المحاضر والأقوال والتقارير</h2><p>اقرأ الوثائق بعناية؛ بعض الجمل تغير معنى الخط الزمني بالكامل.</p></div><div class="counter-pill"><strong id="docsReadCount">0</strong><span>تمت قراءتها</span></div></div><div class="document-layout"><div id="documentList" class="document-list panel"></div><article class="document-viewer panel"><div class="document-stamp">CONFIDENTIAL</div><span id="documentType" class="section-kicker">اختر وثيقة</span><h2 id="documentTitle">ملف القضية</h2><div id="documentContent" class="document-content">اختر محضرًا أو تقريرًا من القائمة لقراءته.</div><div id="documentFooter" class="document-footer"></div></article></div></section>
-        <section id="view-evidence" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">FORENSIC LAB & CHAIN OF CUSTODY</span><h2>الأحراز والتحليل الجنائي</h2><p>كل حرز له مكان ضبط وسلسلة حيازة ونتيجة معملية.</p></div><div class="counter-pill"><strong id="evidenceAnalyzedCount">0</strong><span>تم تحليلها</span></div></div><div id="evidenceGrid" class="evidence-grid"></div><article class="panel lab-panel"><div><span class="section-kicker">LAB RESULT</span><h3 id="labTitle">المعمل جاهز</h3></div><p id="labResult">اختر حرزًا واضغط «تحليل الحرز».</p></article></section>
-        <section id="view-suspects" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">SUSPECT DATABASE</span><h2>المشتبهون</h2><p>صور كرتونية ثلاثية الأبعاد وملف كامل لكل مشتبه.</p></div></div><div id="suspectGrid" class="suspect-grid"></div><article id="suspectDetail" class="panel suspect-detail"></article></section>
-        <section id="view-interrogation" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">INTERROGATION ROOM</span><h2>غرفة الاستجواب</h2><p>اختر مشتبهًا، اسأله من الأسئلة المقترحة أو اكتب سؤالك بنفسك.</p></div><div class="counter-pill"><strong id="questionsAskedCount">0</strong><span>سؤال مسجل</span></div></div><div class="interrogation-layout"><aside class="panel interrogation-suspects"><label for="interrogationSuspect">المشتبه تحت الاستجواب</label><select id="interrogationSuspect"></select><div id="interrogationPortrait" class="interrogation-portrait"></div><div class="stress-meter"><span>مؤشر الضغط</span><div><i id="stressMeter" style="width:12%"></i></div><strong id="stressLabel">هادئ</strong></div><div id="contradictionBox" class="contradiction-box">لم يتم تثبيت تناقض بعد.</div></aside><section class="panel interrogation-room"><div id="chatLog" class="chat-log" aria-live="polite"></div><div id="suggestedQuestions" class="suggested-questions"></div><form id="questionForm" class="question-form"><input id="questionInput" type="text" maxlength="180" placeholder="اكتب سؤالك للمشتبه... مثال: أين كنت وقت الجريمة؟" autocomplete="off"><button type="submit" class="primary-btn compact">اسأل</button></form></section></div></section>
-        <section id="view-theory" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">DEDUCTION BOARD</span><h2>بناء فرضية الاتهام</h2><p>اختر من ارتكب الجريمة، الدافع، والطريقة.</p></div></div><div class="theory-layout"><article class="panel deduction-board"><div class="deduction-grid"><label><span>المشتبه</span><select id="theorySuspect"></select></label><label><span>الدافع</span><select id="theoryMotive"></select></label><label><span>الطريقة</span><select id="theoryMethod"></select></label></div><div class="evidence-chain-title">الأدلة التي ستستند إليها</div><div id="theoryEvidence" class="theory-evidence"></div><button id="submitAccusation" type="button" class="danger-btn accusation-btn">تقديم الاتهام النهائي</button><div id="accusationMessage" class="accusation-message hidden" aria-live="polite"></div></article><aside class="panel readiness-panel"><span class="section-kicker">CASE READINESS</span><h3>جاهزية الملف</h3><div id="readinessChecklist" class="readiness-checklist"></div><button id="hintBtn" type="button" class="ghost-btn full-btn">طلب تلميح (-50 نقطة)</button><p id="hintText" class="hint-text"></p></aside></div></section>
-        <section id="view-league" class="game-view hidden"><div class="section-head-wide"><div><span class="section-kicker">CAREER & CASE NETWORK</span><h2>الدوري وخريطة القضايا</h2><p>راجع القضايا المفتوحة والسابقة وتابع ترتيب المحققين.</p></div></div><div class="league-layout"><article class="panel cases-network"><h3>شبكة القضايا</h3><div id="caseSelector" class="case-selector"></div></article><article class="panel leaderboard-panel"><div class="leaderboard-head"><div><span class="section-kicker">GLOBAL LEAGUE</span><h3>ترتيب المحققين</h3></div><button id="refreshLeaderboard" type="button" class="ghost-btn">تحديث</button></div><div id="leaderboard" class="leaderboard-list"><div class="loading-line">جارٍ تحميل الترتيب...</div></div></article></div></section>
-      </section>
-    </main>
-    <footer class="footer ops-footer"><p>جميع الحقوق محفوظة © 2026</p><strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong><a href="tel:0582712620">0582712620</a></footer>
+      <footer><span>جميع الحقوق محفوظة © 2026</span><strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong><a href="tel:0582712620">0582712620</a></footer>
+    </section>
   </div>
-  <div id="caseSolvedModal" class="case-modal hidden" role="dialog" aria-modal="true" aria-labelledby="caseSolvedTitle"><div class="case-modal-card"><span class="section-kicker">CASE CLOSED</span><h2 id="caseSolvedTitle">تم إغلاق القضية</h2><p id="caseSolvedText"></p><div id="caseSolvedScore" class="modal-score"></div><div class="modal-actions"><button id="continueNextCase" type="button" class="primary-btn">القضية التالية</button><button id="reviewClosedCase" type="button" class="ghost-btn">مراجعة القضية</button></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script><script src="supabase-config.js?v=20260831-v2"></script><script src="auth.js?v=20260831-v2"></script><script src="cases.js?v=20260831-v2"></script><script src="app.js?v=20260831-v2"></script></body></html>
+</section>
+
+<div class="app-shell game-locked">
+<header class="top">
+  <div class="detective"><div class="avatar">م</div><div><strong id="headerPlayerName">المحقق</strong><span id="rank">محقق متدرب</span></div></div>
+  <div class="score"><span>النقاط</span><strong id="points">0</strong></div>
+  <nav>
+    <button class="main-tab active" data-view="case">القضية</button>
+    <button class="main-tab" data-view="suspects">المشتبهون</button>
+    <button class="main-tab" data-view="evidence">الأحراز</button>
+    <button class="main-tab" data-view="documents">المحاضر</button>
+    <button class="main-tab" data-view="interrogate">الاستجواب</button>
+    <button class="main-tab" data-view="theory">الاتهام</button>
+    <button class="main-tab" data-view="map">خريطة القضايا</button>
+    <button class="main-tab" data-view="league">الدوري</button>
+  </nav>
+  <div class="energy"><span>⚡</span><b id="energyText">100 / 100</b></div>
+  <button id="logoutBtn" class="logout hidden">خروج</button>
+</header>
+
+<main>
+<section id="view-case" class="game-view">
+  <div class="case-heading">
+    <div><span id="seasonName">الموسم 1</span><h1 id="mainCaseName">القضية</h1><small id="caseNo"></small></div>
+    <div class="case-pills"><span id="caseScope"></span><span id="caseCategory"></span><span>صعوبة <b id="caseDifficulty"></b></span></div>
+  </div>
+  <div class="case-grid">
+    <section class="scene-panel panel">
+      <div class="panel-title"><b>مسرح الجريمة</b><span id="caseLocation"></span></div>
+      <div class="scene-wrap"><img id="sceneImage" alt="مسرح الجريمة"><div id="hotspotLayer"></div></div>
+      <div class="scene-bottom"><div><h2 id="sceneCaption"></h2><p>اضغط على العلامات الصفراء لفحص المكان وجمع الملاحظات.</p></div><div id="sceneFinding"><b>ابدأ المعاينة</b><span>اختر نقطة من المشهد.</span></div></div>
+    </section>
+    <aside class="case-file panel">
+      <div class="panel-title"><b>ملف القضية</b></div>
+      <div class="victim"><div class="victim-icon">☗</div><div><span>الضحية</span><strong id="victimName"></strong></div></div>
+      <dl><div><dt>مكان الحادث</dt><dd id="victimPlace"></dd></div><div><dt>الوقت</dt><dd id="victimTime"></dd></div><div><dt>مكافأة القضية</dt><dd><b id="caseReward"></b> نقطة</dd></div></dl>
+      <h3>ملخص القضية</h3><p id="caseBrief"></p>
+      <h3>الخط الزمني</h3><div id="timeline" class="timeline"></div>
+    </aside>
+  </div>
+
+  <section class="panel strip-panel"><div class="panel-title"><b>المشتبهون</b><span>اضغط على أي مشتبه لفتح ملفه</span></div><div class="suspect-strip suspect-strip-target"></div></section>
+  <div class="lower-grid">
+    <section class="panel evidence-preview"><div class="panel-title"><b>الأحراز</b><span class="evidence-count-target"></span></div><div class="evidence-grid compact evidence-grid-target"></div><div class="lab-result lab-result-target"><strong>معمل الأدلة جاهز</strong><p>اختر حرزًا لتحليله.</p></div></section>
+    <section class="panel notes"><div class="panel-title"><b>مذكرة المحقق</b></div><ul><li>لا تعتمد على أول مشتبه يبدو مذنبًا.</li><li>التوقيت المصحح أهم من التوقيت الظاهر.</li><li>اربط الدافع بالفرصة والطريقة.</li><li>بعض الأحراز موجودة لتضليلك.</li></ul><div class="progress"><span>تقدم التحقيق</span><b id="progressLabel">0%</b><i><u id="progressMeter"></u></i></div></section>
+  </div>
+</section>
+
+<section id="view-suspects" class="game-view hidden">
+  <div class="section-title"><div><span>SUSPECT DATABASE</span><h2>المشتبهون</h2></div></div>
+  <div class="suspects-page"><div id="suspectFocus" class="panel suspect-focus"></div><div class="suspect-strip panel suspect-strip-target"></div></div>
+</section>
+
+<section id="view-evidence" class="game-view hidden">
+  <div class="section-title"><div><span>CHAIN OF CUSTODY</span><h2>الأحراز والتحليل الجنائي</h2></div><b class="evidence-count-target"></b></div>
+  <div class="evidence-grid evidence-grid-target"></div><div class="lab-result panel lab-result-target"><strong>معمل الأدلة جاهز</strong><p>اختر حرزًا لتحليله.</p></div>
+</section>
+
+<section id="view-documents" class="game-view hidden">
+  <div class="section-title"><div><span>CASE DOCUMENTS</span><h2>المحاضر والأقوال والتقارير</h2></div><b id="docsRead"></b></div>
+  <div class="docs-layout"><aside id="docList" class="doc-list panel"></aside><article id="docViewer" class="doc-viewer panel"><span>سري للغاية</span><h2>اختر وثيقة</h2><p>افتح أحد المحاضر لقراءته وإضافته إلى ملف التحقيق.</p></article></div>
+</section>
+
+<section id="view-interrogate" class="game-view hidden">
+  <div class="section-title"><div><span>INTERROGATION ROOM</span><h2>غرفة الاستجواب</h2></div><b>الأسئلة: <span id="questionsAsked">0</span></b></div>
+  <div class="interrogate-layout"><aside class="panel"><div id="interrogateWho"></div><div id="contradiction">لم يتم تثبيت تناقض بعد.</div></aside><section class="panel chat"><div id="chatLog"><div class="a"><small>المشتبه</small>أنا جاهز. اسأل اللي عايز تعرفه.</div></div><div id="questionChips" class="chips"></div><form id="questionForm"><input id="questionInput" placeholder="اكتب سؤالك للمشتبه..."><button>إرسال</button></form></section></div>
+</section>
+
+<section id="view-theory" class="game-view hidden">
+  <div class="section-title"><div><span>DEDUCTION BOARD</span><h2>بناء الاتهام النهائي</h2></div></div>
+  <div class="theory-layout"><section class="panel accusation"><label>المشتبه<select id="theorySuspect"></select></label><label>الدافع<select id="theoryMotive"></select></label><label>طريقة الجريمة<select id="theoryMethod"></select></label><button id="accuseBtn" class="danger">تقديم الاتهام النهائي</button><div id="accusationMessage" class="message hidden"></div></section><aside class="panel readiness"><h3>جاهزية ملف القضية</h3><div id="readiness"></div><button id="hintBtn">طلب تلميح (-50 نقطة)</button><p id="hintText"></p></aside></div>
+</section>
+
+<section id="view-map" class="game-view hidden">
+  <div class="section-title"><div><span>CASE NETWORK</span><h2>خريطة الـ <span id="mapCaseCount">520</span> قضية</h2></div><b id="mapRange"></b></div>
+  <div id="caseMap" class="case-map"></div>
+</section>
+
+<section id="view-league" class="game-view hidden">
+  <div class="section-title"><div><span>GLOBAL LEAGUE</span><h2>دوري المحققين</h2></div><button id="refreshLeaderboard">تحديث</button></div>
+  <div id="leaderboard" class="leaderboard panel"></div>
+</section>
+</main>
+
+<footer class="site-footer"><span>جميع الحقوق محفوظة © 2026</span><strong>برمجة وتصميم: محمد صلاح الدين الجمل</strong><a href="tel:0582712620">0582712620</a></footer>
+</div>
+
+<div id="solvedModal" class="modal hidden"><div class="modal-card"><span>CASE CLOSED</span><h2>تم إغلاق القضية</h2><p id="solvedText"></p><strong id="solvedScore"></strong><div><button id="nextCaseBtn">الانتقال للقضية التالية ←</button><button id="reviewBtn">مراجعة القضية</button></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js?v=520"></script>
+<script src="case-engine.js?v=520"></script>
+<script src="auth.js?v=520"></script>
+<script src="game.js?v=520"></script>
+</body></html>
