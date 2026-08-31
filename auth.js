@@ -6,6 +6,9 @@
   const statusBox=document.getElementById("authStatus");
   let client=null, profile=null;
 
+  const heroImage=document.getElementById("authHeroImage");
+  if(heroImage && window.gameAsset) heroImage.src=gameAsset("assets/scenes/hotel.svg");
+
   function status(msg,error=false){statusBox.textContent=msg||"";statusBox.classList.toggle("error",!!error)}
   function showForm(which){
     const login=which==="login";

@@ -8,3 +8,265 @@
 .suspect-mini>div .portrait-file{width:100%;height:100%;object-fit:cover}
 .focus-portrait .portrait-file{width:100%;height:100%;object-fit:cover}
 #interrogateWho .portrait-file{width:100%;height:250px;object-fit:cover}
+
+
+/* ==========================================================
+   LARGE READABLE UI — v521
+   ========================================================== */
+html { font-size: 17px; }
+body { font-size: 16px; line-height: 1.7; }
+
+.app-shell { max-width: 1840px; padding-inline: 14px; }
+
+.top {
+  min-height: 92px;
+  grid-template-columns: 245px 165px minmax(650px,1fr) 145px 90px;
+}
+.detective strong { font-size: 16px; }
+.detective span { font-size: 12px; }
+.avatar { width: 56px; height: 56px; font-size: 20px; }
+.score span { font-size: 12px; }
+.score strong { font-size: 27px; }
+.main-tab {
+  min-width: 108px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+}
+.energy { font-size: 14px; padding: 11px 14px; }
+.logout { font-size: 13px; }
+
+main { padding: 20px; }
+
+.case-heading h1, .section-title h2 { font-size: 34px; }
+.case-heading span, .section-title span { font-size: 13px; }
+.case-heading small { font-size: 13px; }
+.case-pills span {
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.case-grid {
+  grid-template-columns: minmax(0,1fr) 390px;
+  gap: 16px;
+}
+.panel-title { padding: 11px 12px; }
+.panel-title b { font-size: 17px; }
+.panel-title span { font-size: 13px; }
+
+.scene-panel { padding: 14px; }
+.scene-wrap img {
+  min-height: 590px;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+.hotspot {
+  width: 52px;
+  height: 52px;
+  font-size: 17px;
+  border-width: 2px;
+}
+.scene-bottom {
+  grid-template-columns: 1fr 380px;
+  padding: 16px;
+  gap: 16px;
+}
+.scene-bottom h2 { font-size: 22px; }
+.scene-bottom p, .scene-bottom span { font-size: 13px; }
+.scene-bottom>div:last-child { padding: 12px 14px; }
+
+.case-file { padding: 18px; }
+.victim { padding: 18px 0; }
+.victim-icon { width: 60px; height: 60px; font-size: 29px; }
+.victim span { font-size: 12px; }
+.victim strong { font-size: 16px; }
+.case-file dt { font-size: 12px; }
+.case-file dd { font-size: 14px; }
+.case-file h3 { font-size: 16px; margin-top: 19px; }
+.case-file>p { font-size: 14px; line-height: 2; }
+.timeline div { grid-template-columns: 70px 1fr; padding: 8px 0; }
+.timeline b, .timeline span { font-size: 12px; }
+
+.strip-panel { padding: 12px; margin-top: 16px; }
+.suspect-strip {
+  grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+  gap: 12px;
+  padding: 12px;
+}
+.suspect-mini { padding: 9px; min-height: 285px; }
+.suspect-mini>div { height: 205px; }
+.suspect-mini strong { font-size: 15px; margin-top: 8px; }
+.suspect-mini span, .suspect-mini small { font-size: 12px; }
+.suspect-mini small { margin-top: 5px; }
+
+.lower-grid {
+  grid-template-columns: minmax(0,1fr) 390px;
+  gap: 16px;
+  margin-top: 16px;
+}
+.evidence-preview,.notes { padding: 12px; }
+
+.evidence-grid {
+  grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
+  gap: 14px;
+}
+.evidence-grid.compact {
+  grid-template-columns: repeat(auto-fit,minmax(205px,1fr));
+  max-height: 460px;
+}
+.evidence-card {
+  grid-template-columns: 125px 1fr;
+  gap: 12px;
+  padding: 11px;
+  min-height: 155px;
+}
+.evidence-grid.compact .evidence-card { grid-template-columns: 1fr; }
+.evidence-card img { width: 125px; height: 110px; }
+.evidence-grid.compact img { width: 100%; height: 140px; }
+.evidence-card span,.evidence-card p { font-size: 12px; }
+.evidence-card h3 { font-size: 15px; margin: 7px 0; }
+.evidence-card button { font-size: 12px; padding: 9px; min-height: 40px; }
+
+.lab-result { padding: 14px; }
+.lab-result strong { font-size: 15px; }
+.lab-result p,.lab-result small { font-size: 12px; }
+
+.notes li { font-size: 13px; line-height: 2.1; }
+.progress span { font-size: 13px; }
+.progress b { font-size: 14px; }
+
+.section-title { margin: 8px 0 18px; }
+.section-title>b { font-size: 14px; }
+
+.suspects-page { grid-template-columns: 470px 1fr; gap: 16px; }
+.suspect-focus {
+  grid-template-columns: 220px 1fr;
+  padding: 16px;
+}
+.focus-portrait { height: 380px; }
+.suspect-focus h3 { font-size: 27px; }
+.suspect-focus p { font-size: 14px; }
+.suspect-focus dt { font-size: 12px; }
+.suspect-focus dd { font-size: 14px; line-height: 1.8; }
+.gold-btn { font-size: 14px; padding: 12px 18px; }
+
+.docs-layout { grid-template-columns: 390px 1fr; gap: 16px; }
+.doc-list { padding: 10px; }
+.doc-list button { padding: 16px; }
+.doc-list b { font-size: 14px; }
+.doc-list span { font-size: 12px; }
+.doc-viewer { min-height: 650px; padding: 48px; }
+.doc-viewer>span { font-size: 13px; }
+.doc-viewer h2 { font-size: 30px; }
+.doc-viewer p { font-size: 17px; line-height: 2.25; }
+.doc-viewer footer { font-size: 12px; }
+
+.interrogate-layout { grid-template-columns: 390px 1fr; gap: 16px; }
+.interrogate-layout>aside,.chat { padding: 17px; }
+#interrogateWho .portrait-file { height: 340px; }
+.interrogate-layout aside h3 { font-size: 23px; }
+.interrogate-layout aside p { font-size: 13px; }
+#contradiction { font-size: 13px; padding: 14px; }
+#chatLog { min-height: 520px; max-height: 650px; }
+.q,.a { font-size: 14px; line-height: 1.9; padding: 13px 15px; }
+.q small,.a small { font-size: 11px; }
+.chips button { font-size: 12px; padding: 10px 13px; min-height: 42px; }
+.chat input { height: 52px; font-size: 15px; }
+.chat form button { font-size: 14px; }
+
+.theory-layout { grid-template-columns: minmax(0,1fr) 390px; gap: 16px; }
+.accusation,.readiness { padding: 20px; }
+.accusation label { font-size: 13px; }
+.accusation select { height: 52px; font-size: 14px; }
+.danger { height: 58px; font-size: 15px; }
+.message { font-size: 14px; padding: 14px; }
+.readiness h3 { font-size: 18px; }
+.readiness>div div { font-size: 13px; padding: 11px; }
+.readiness button { font-size: 13px; padding: 12px; }
+.readiness p { font-size: 12px; }
+
+.case-map {
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 11px;
+}
+.case-map button { min-height: 120px; padding: 13px; }
+.case-map b { font-size: 20px; }
+.case-map span { font-size: 13px; }
+.case-map small { font-size: 11px; }
+
+.leaderboard>div {
+  grid-template-columns: 48px 1fr 130px;
+  padding: 14px;
+}
+.leaderboard strong { font-size: 14px; }
+.leaderboard small { font-size: 11px; }
+.leaderboard em { font-size: 14px; }
+
+.site-footer { font-size: 12px; padding: 32px; }
+
+.modal-card { width: min(680px,100%); padding: 34px; }
+.modal-card>span { font-size: 12px; }
+.modal-card h2 { font-size: 34px; }
+.modal-card p { font-size: 15px; }
+.modal-card button { font-size: 14px; padding: 12px 16px; }
+
+/* Authentication readability */
+.auth-grid { max-width: 1650px; }
+.auth-copy>span { font-size: 13px; }
+.auth-copy h1 { font-size: 62px; }
+.auth-copy p { font-size: 16px; }
+.auth-art img { max-height: 440px; }
+.auth-stats b { font-size: 25px; }
+.auth-stats span { font-size: 13px; }
+.secure { font-size: 12px; }
+.auth-card h2 { font-size: 38px; }
+.auth-card>p { font-size: 15px; }
+.auth-tabs button { font-size: 14px; height: 50px; }
+.auth-card label { font-size: 13px; }
+.auth-card input { height: 56px; font-size: 16px; }
+.auth-submit { height: 58px; font-size: 15px; }
+#authStatus { font-size: 13px; }
+.auth-panel footer { font-size: 11px; }
+
+/* Ensure every image remains visibly painted */
+img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.scene-wrap img,
+.portrait-file,
+.evidence-card img,
+.auth-art img {
+  display: block !important;
+  background: #10161c;
+}
+
+/* tablet */
+@media(max-width: 1250px){
+  .top { grid-template-columns: 220px 140px minmax(500px,1fr) 130px; }
+  .case-grid,.lower-grid,.suspects-page,.docs-layout,.interrogate-layout,.theory-layout { grid-template-columns: 1fr; }
+  .case-file { order: -1; }
+  .scene-wrap img { min-height: 520px; }
+  .suspect-focus { grid-template-columns: 240px 1fr; }
+}
+
+/* mobile */
+@media(max-width: 760px){
+  html { font-size: 16px; }
+  main { padding: 10px; }
+  .case-heading h1,.section-title h2 { font-size: 27px; }
+  .scene-wrap img { min-height: 330px; }
+  .scene-bottom { grid-template-columns: 1fr; }
+  .suspect-strip { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .suspect-mini { min-height: 245px; }
+  .suspect-mini>div { height: 170px; }
+  .suspect-mini strong { font-size: 13px; }
+  .suspect-mini span,.suspect-mini small { font-size: 11px; }
+  .evidence-grid,.evidence-grid.compact { grid-template-columns: 1fr; }
+  .suspect-focus { grid-template-columns: 1fr; }
+  .focus-portrait { height: 330px; }
+  .doc-viewer { padding: 25px; }
+  .doc-viewer p { font-size: 15px; }
+  .case-map { grid-template-columns: repeat(2,1fr); }
+  .auth-card h2 { font-size: 31px; }
+}
